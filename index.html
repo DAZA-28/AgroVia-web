@@ -568,18 +568,58 @@ const proveedor = [
   [34,"Historial de pedidos","PedidosFragment"],
 ];
 
+const annexImages = {
+  1: "s1.jpg",
+  2: "s2.jpg",
+  3: "s3.jpg",
+  4: "s4.jpg",
+  5: "s5.jpg",
+  6: "s6.jpg",
+  7: "s7.jpg",
+  8: "s8.jpg",
+  9: "s9.jpg",
+  10: "s10.jpg",
+  11: "s11.jpg",
+  12: "s12.jpg",
+  13: "s13.jpg",
+  14: "s14.jpg",
+  15: "s15.jpg",
+  16: "s16.jpg",
+  17: "s17.jpg",
+  18: "s18.jpg",
+  19: "s19.jpg",
+  20: "s20.jpg",
+  21: "s21.jpg",
+  22: "s22.jpg",
+  23: "s23.jpg",
+  24: "s24.jpg",
+  25: "s25.jpg",
+  26: "s26.jpg",
+  27: "s27.jpg",
+  28: "s28.jpg",
+  29: "s29.jpg",
+  30: "s30.jpg",
+  31: "s31.jpg",
+  32: "s32.jpg",
+  33: "s33.jpg",
+  34: "s34.jpg"
+};
+
 function buildGallery(id, items) {
   const el = document.getElementById(id);
-  el.innerHTML = items.map(([n, name, cls]) => `
-    <div class="g-card">
-      <div class="g-frame"><img src="assets/img/s${n}.jpg" loading="lazy" alt="${name} — app AgroVía"></div>
-      <div class="g-cap">
-        <span class="num mono">ANEXO ${n}</span>
-        <span class="name">${name}</span>
-        <span class="cls">${cls}</span>
+  el.innerHTML = items.map(([n, name, cls]) => {
+    const imageFile = annexImages[n] || `s${n}.jpg`;
+    return `
+      <div class="g-card">
+        <div class="g-frame"><img src="assets/img/${imageFile}" loading="lazy" alt="${name} — app AgroVía"></div>
+        <div class="g-cap">
+          <span class="num mono">ANEXO ${n}</span>
+          <span class="name">${name}</span>
+          <span class="cls">${cls}</span>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 buildGallery('gal-cliente', cliente);
 buildGallery('gal-repartidor', repartidor);
