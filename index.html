@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AgroVía — Del campo a tu mesa</title>
-<meta name="description" content="AgroVía es un ecosistema de tres aplicaciones Android que conecta clientes, tiendas y repartidores para el comercio agrícola local.">
+<meta name="description" content="Comprá a las tiendas agrícolas de tu barrio y recibí tu pedido en la puerta, con seguimiento en vivo. Vendé a toda tu zona o repartí cuando querás. AgroVía, del campo a tu mesa.">
 <link rel="icon" type="image/png" href="assets/logo/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,7 +83,7 @@ a{color:inherit;}
 .stage-nav button.active i{background:var(--verde-primary);border-color:var(--verde-primary);transform:scale(1.35);box-shadow:0 0 0 4px rgba(74,222,128,.14);}
 @media(max-width:1100px){.stage-nav{display:none;}}
 /* separa el texto del fondo animado */
-.hero-grid, .section-head, .app-head, .ruta-body, .estados, .foot-grid, .sc-meta{text-shadow:0 1px 14px rgba(4,13,7,.9);}
+.hero-grid, .section-head, .app-head, .ruta-body, .estados, .foot-grid, .sc-meta, .objeciones, .trust-grid, .faq-grid, .cta-row{text-shadow:0 1px 14px rgba(4,13,7,.9);}
 
 /* ---------- reveal ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
@@ -269,27 +269,6 @@ section{padding:118px 0;position:relative;}
 .estado p{font-size:13.5px;color:rgba(245,245,220,.55);line-height:1.55;}
 @media(max-width:760px){.estados{grid-template-columns:1fr;}.estado{border-left:none;border-top:1px solid rgba(245,245,220,.14);padding-left:0;}.estado:first-child{border-top:none;}.estado::before{top:-1px;left:0;height:1px;width:8px;}}
 
-/* ---------- stack ---------- */
-.stack-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
-.stack-chip {
-  font-family: 'Inter', sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 8px 18px;
-  color: #f8fafc;
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.25s ease;
-}
-.stack-chip:hover {
-  border-color: var(--verde-primary);
-  color: var(--verde-primary);
-  background: var(--verde-soft);
-  transform: translateY(-2px);
-}
-
 /* ---------- footer / contact ---------- */
 footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);color:var(--papel);padding:100px 0 40px;}
 .foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:60px;padding-bottom:70px;border-bottom:1px solid rgba(245,245,220,.12);}
@@ -302,6 +281,85 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 .foot-col .muted{color:rgba(245,245,220,.4);font-size:13px;margin-top:4px;}
 .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:34px;font-size:12.5px;color:rgba(245,245,220,.4);flex-wrap:wrap;gap:12px;}
 @media(max-width:820px){.foot-grid{grid-template-columns:1fr;gap:40px;}}
+
+/* ---------- botones ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:999px;
+  font-family:'Inter',sans-serif;font-size:14.5px;font-weight:600;text-decoration:none;
+  border:1px solid transparent;cursor:pointer;
+  transition:background .25s, border-color .25s, color .25s, transform .25s;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:focus-visible{outline:2px solid var(--verde-primary);outline-offset:3px;}
+.btn-primary{background:var(--verde-primary);color:#052e16;}
+.btn-primary:hover{background:#86efac;}
+.btn-ghost{background:rgba(245,245,220,.04);border-color:rgba(238,242,234,.22);color:var(--papel);}
+.btn-ghost:hover{border-color:var(--verde-primary);color:var(--verde-primary);background:var(--verde-soft);}
+.btn[aria-disabled="true"]{opacity:.55;pointer-events:none;}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+.hero-stats{margin-top:40px;}
+.hero-stat span{display:block;max-width:22ch;line-height:1.5;margin-top:2px;}
+
+/* marcadores de contenido pendiente (visibles a propósito) */
+.pendiente{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.5;
+  color:#fbbf24;background:rgba(251,191,36,.08);
+  border:1px dashed rgba(251,191,36,.55);border-radius:6px;padding:4px 10px;
+}
+
+/* ---------- secciones por tipo de usuario ---------- */
+.app-head{align-items:start;}
+.sec-lede{margin-top:22px;font-size:16.5px;line-height:1.7;color:var(--tinta-60);max-width:48ch;}
+.sec-heart{margin-top:18px;font-size:15px;line-height:1.6;color:var(--verde-primary);max-width:46ch;}
+.benefits{list-style:none;margin:0;padding:0;display:grid;gap:12px;}
+.benefits li{
+  padding:18px 20px;border:1px solid var(--linea);border-radius:10px;
+  background:var(--blanco-card);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.benefits li.highlight{border-color:rgba(74,222,128,.5);background:var(--verde-soft);}
+.benefits h3{font-family:'Inter',sans-serif;font-size:16px;font-weight:600;line-height:1.35;color:var(--papel);margin-bottom:6px;}
+.benefits p{font-size:14.5px;line-height:1.6;color:var(--tinta-60);}
+.benefits .why{margin-top:8px;font-size:13.5px;color:var(--tinta);}
+.benefits .why b{color:var(--verde-primary);font-weight:600;}
+
+.objeciones{display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px;margin-top:64px;}
+.obj{padding:22px 24px;border-left:2px solid var(--azul-2);background:rgba(8,26,20,.72);border-radius:0 10px 10px 0;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.obj-q{font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--papel);margin-bottom:10px;}
+.obj p:not(.obj-q){font-size:14.5px;line-height:1.6;color:var(--tinta-60);}
+
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:36px;}
+.testimonio{
+  margin-top:28px;padding:22px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(251,191,36,.85);
+  border:1px dashed rgba(251,191,36,.4);border-radius:10px;
+}
+
+/* ---------- confianza ---------- */
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;}
+.trust{padding:22px;border:1px solid rgba(245,245,220,.12);border-radius:10px;background:rgba(10,24,15,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.trust h3{font-family:'Inter',sans-serif;font-size:15.5px;font-weight:600;color:var(--verde-primary);margin-bottom:8px;}
+.trust p{font-size:14px;line-height:1.6;color:rgba(245,245,220,.68);}
+
+/* ---------- preguntas frecuentes ---------- */
+.faq-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:32px;}
+.faq-who{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--azul-2);margin-bottom:14px;}
+.faq-col details{border-bottom:1px solid var(--linea);}
+.faq-col summary{
+  list-style:none;cursor:pointer;padding:16px 28px 16px 0;position:relative;
+  font-size:15px;font-weight:600;line-height:1.45;color:var(--papel);
+}
+.faq-col summary::-webkit-details-marker{display:none;}
+.faq-col summary::after{
+  content:'+';position:absolute;right:4px;top:14px;font-size:20px;font-weight:400;color:var(--verde-primary);
+  transition:transform .3s;
+}
+.faq-col details[open] summary::after{transform:rotate(45deg);}
+.faq-col summary:focus-visible{outline:2px solid var(--verde-primary);outline-offset:2px;}
+.faq-col details p{padding:0 0 18px;font-size:14.5px;line-height:1.65;color:var(--tinta-60);}
+@media(max-width:900px){.faq-grid{grid-template-columns:1fr;gap:36px;}}
+
+.foot-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
 
 /* ---------- SHOWCASE DE PANTALLAS ---------- */
 .showcase{
@@ -369,7 +427,6 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 .sc-meta{text-align:center;transition:opacity .25s ease, transform .25s ease;}
 .sc-meta.out{opacity:0;transform:translateY(6px);}
 .sc-meta h4{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:4px 0 2px;color:var(--papel);}
-.sc-meta p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tinta-60);}
 
 .sc-nav{display:flex;align-items:center;gap:14px;}
 .sc-arrow{
@@ -407,21 +464,22 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 <canvas id="particles" aria-hidden="true"></canvas>
 
 <div class="stage-nav" id="stageNav" aria-label="Etapas de AgroVía">
-  <button data-stage="0"><span class="lbl">Campo</span><i></i></button>
-  <button data-stage="1"><span class="lbl">Ruta</span><i></i></button>
-  <button data-stage="2"><span class="lbl">Cliente</span><i></i></button>
-  <button data-stage="3"><span class="lbl">Tienda</span><i></i></button>
-  <button data-stage="4"><span class="lbl">Reparto</span><i></i></button>
-  <button data-stage="5"><span class="lbl">Sistema</span><i></i></button>
+  <button data-stage="0"><span class="lbl">Inicio</span><i></i></button>
+  <button data-stage="1"><span class="lbl">Tu pedido</span><i></i></button>
+  <button data-stage="2"><span class="lbl">Comprar</span><i></i></button>
+  <button data-stage="3"><span class="lbl">Vender</span><i></i></button>
+  <button data-stage="4"><span class="lbl">Repartir</span><i></i></button>
+  <button data-stage="5"><span class="lbl">Confianza</span><i></i></button>
 </div>
 
 <nav id="nav">
   <div class="brand"><img src="assets/logo/agrovia-logo-cream.png" alt="AgroVía" class="brand-logo"></div>
   <div class="nav-links" id="navLinks">
     <a href="#flujo">Cómo funciona</a>
-    <a href="#cliente">Cliente</a>
-    <a href="#proveedor">Proveedor</a>
-    <a href="#repartidor">Repartidor</a>
+    <a href="#cliente">Comprar</a>
+    <a href="#proveedor">Vender</a>
+    <a href="#repartidor">Repartir</a>
+    <a href="#faq">Preguntas</a>
     <a href="#contacto">Contacto</a>
   </div>
   <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
@@ -432,13 +490,18 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span class="dash"></span>Ecosistema de comercio agrícola</span>
+      <span class="eyebrow"><span class="dash"></span>Comercio agrícola local · Costa Rica</span>
       <h1 class="reveal in">Del campo <br><em>a tu mesa</em></h1>
-      <p class="lede reveal in reveal-delay-1">AgroVía conecta a clientes, tiendas y repartidores en tres aplicaciones que trabajan sobre una misma base de datos: un pedido nace en el celular del cliente, se prepara en la tienda y llega a la puerta con seguimiento de ubicación en vivo.</p>
-      <div class="hero-stats reveal in reveal-delay-2">
-        <div class="hero-stat"><b>3</b><span>APLICACIONES ANDROID</span></div>
-        <div class="hero-stat"><b>4</b><span>ESTADOS DE PEDIDO</span></div>
-        <div class="hero-stat"><b>1</b><span>BASE DE DATOS EN TIEMPO REAL</span></div>
+      <p class="lede reveal in reveal-delay-1">AgroVía une a las tiendas agrícolas del barrio con los vecinos que quieren comprarles y con repartidores de la zona. Pedís desde el celular, ves tu pedido en el mapa y lo recibís en tu puerta.</p>
+      <div class="hero-ctas reveal in reveal-delay-2">
+        <a class="btn btn-primary" href="#cliente">Quiero comprar</a>
+        <a class="btn btn-ghost" href="#proveedor">Tengo una tienda</a>
+        <a class="btn btn-ghost" href="#repartidor">Quiero repartir</a>
+      </div>
+      <div class="hero-stats reveal in reveal-delay-3">
+        <div class="hero-stat"><b>3</b><span>APPS CONECTADAS: CLIENTE, TIENDA Y REPARTIDOR</span></div>
+        <div class="hero-stat"><b>4</b><span>MOMENTOS DEL PEDIDO, EN VIVO</span></div>
+        <div class="hero-stat"><b>2</b><span>CÓDIGOS QUE PROTEGEN CADA ENTREGA</span></div>
       </div>
     </div>
     <div class="phone-stage reveal in reveal-delay-2">
@@ -452,8 +515,8 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   <div class="wrap">
     <div class="section-head reveal">
       <span class="k-label">Cómo funciona</span>
-      <h2>Un pedido, tres aplicaciones, cuatro estados.</h2>
-      <p>Cada pedido recorre una ruta fija dentro del ecosistema. Las tres apps leen y escriben sobre el mismo pedido, así que todos ven el mismo estado al mismo tiempo.</p>
+      <h2>De la tienda del barrio a tu puerta, en cuatro momentos.</h2>
+      <p>Así viaja cada pedido. Vos, la tienda y el repartidor ven lo mismo al mismo tiempo, así que nadie se queda preguntando.</p>
     </div>
 
     <div class="ruta">
@@ -462,36 +525,36 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
       <div class="ruta-stop reveal">
         <div class="ruta-num mono">01</div>
         <div class="ruta-body">
-          <span class="tag">App Cliente</span>
-          <h3>El cliente arma el pedido</h3>
-          <p>Explora tiendas cercanas, agrega productos al carrito y confirma la compra. El pedido nace con estado <strong>PEDIDO</strong> y queda ligado a la tienda elegida.</p>
+          <span class="tag">Pedido</span>
+          <h3>Elegís y comprás</h3>
+          <p>Abrís la app, ves las tiendas agrícolas cerca de vos con sus productos y precios, y armás tu pedido. Pagás con tarjeta o en efectivo.</p>
         </div>
       </div>
 
       <div class="ruta-stop reveal">
         <div class="ruta-num mono">02</div>
         <div class="ruta-body">
-          <span class="tag">App Proveedor</span>
-          <h3>La tienda prepara y entrega al repartidor</h3>
-          <p>El proveedor recibe el pedido en su bandeja, lo prepara y lo marca como <strong>LISTO</strong>. Cuando un repartidor lo acepta y genera un código de recogida, el proveedor lo confirma y el pedido pasa a <strong>RECOGIDO</strong>.</p>
+          <span class="tag">Listo</span>
+          <h3>La tienda lo prepara</h3>
+          <p>La tienda recibe tu pedido al instante, lo alista y lo marca como listo. En ese momento AgroVía busca un repartidor.</p>
         </div>
       </div>
 
       <div class="ruta-stop reveal">
         <div class="ruta-num mono">03</div>
         <div class="ruta-body">
-          <span class="tag">App Repartidor</span>
-          <h3>El repartidor entrega y comparte su ubicación</h3>
-          <p>Mientras viaja, su ubicación se transmite en vivo al cliente. En la puerta, valida el código de verificación del cliente y el pedido queda <strong>ENTREGADO</strong>.</p>
+          <span class="tag">Recogido</span>
+          <h3>Un repartidor lo retira</h3>
+          <p>El repartidor solo se lleva tu pedido cuando la tienda confirma su código de recogida. Desde ahí lo ves avanzar en el mapa y podés escribirle por chat.</p>
         </div>
       </div>
 
       <div class="ruta-stop reveal">
         <div class="ruta-num mono">04</div>
         <div class="ruta-body">
-          <span class="tag">Cierre</span>
-          <h3>Calificación y chat</h3>
-          <p>El cliente puede calificar al repartidor y conversar con él por un chat integrado durante todo el recorrido del pedido.</p>
+          <span class="tag">Entregado</span>
+          <h3>Llega a tu puerta</h3>
+          <p>Le das tu código de verificación al repartidor y recién ahí el pedido queda entregado. Si pagaste en efectivo y no había vuelto, el cambio queda como crédito en tu cuenta.</p>
         </div>
       </div>
     </div>
@@ -500,12 +563,12 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 
 <section class="dark" id="estados" style="padding:80px 0;">
   <div class="wrap reveal">
-    <span class="k-label">Máquina de estados del pedido</span>
+    <span class="k-label">Lo que ven las tres apps, al mismo tiempo</span>
     <div class="estados">
-      <div class="estado"><span class="n mono">ESTADO 1</span><h4>Pedido</h4><p>El cliente confirma la compra. El pedido queda a la espera de la tienda.</p></div>
-      <div class="estado"><span class="n mono">ESTADO 2</span><h4>Listo</h4><p>La tienda terminó de preparar el pedido y espera a un repartidor.</p></div>
-      <div class="estado"><span class="n mono">ESTADO 3</span><h4>Recogido</h4><p>Un repartidor lo retiró de la tienda con código de recogida validado.</p></div>
-      <div class="estado"><span class="n mono">ESTADO 4</span><h4>Entregado</h4><p>El código de verificación del cliente confirmó la entrega en la puerta.</p></div>
+      <div class="estado"><span class="n mono">PEDIDO</span><h4>Compraste</h4><p>La tienda ya tiene tu pedido en su bandeja.</p></div>
+      <div class="estado"><span class="n mono">LISTO</span><h4>Está preparado</h4><p>La tienda lo alistó y se busca repartidor.</p></div>
+      <div class="estado"><span class="n mono">RECOGIDO</span><h4>Va en camino</h4><p>Salió de la tienda con código de recogida confirmado.</p></div>
+      <div class="estado"><span class="n mono">ENTREGADO</span><h4>Llegó a vos</h4><p>Se cerró con tu código de verificación, en tu puerta.</p></div>
     </div>
   </div>
 </section>
@@ -514,23 +577,60 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   <div class="wrap">
     <div class="app-head">
       <div class="reveal">
-        <span class="k-label">Aplicación 01 · Cliente</span>
-        <h2>Pedir a la tienda del barrio, sin salir de casa</h2>
+        <span class="k-label">Para quien compra</span>
+        <h2>El mercado del barrio, sin salir de casa</h2>
+        <p class="sec-lede">Se acabó ir hasta la tienda o el mercado para descubrir que no había lo que buscabas, o esperar sin saber cuándo llega tu pedido. Con AgroVía ves qué hay, cuánto cuesta y por dónde viene tu compra.</p>
+        <p class="sec-heart">Y cada compra le queda a la tienda de tu barrio: apoyás al comercio agrícola local.</p>
       </div>
       <div class="reveal reveal-delay-1">
-        <p class="desc">La app del cliente reúne el catálogo de tiendas cercanas, el carrito de compra, el historial de pedidos y el seguimiento en vivo del repartidor, todo con inicio de sesión propio o con Google.</p>
-        <ul class="feature-list">
-          <li>Catálogo por tienda con productos y precios</li>
-          <li>Carrito y checkout con pago integrado</li>
-          <li>Seguimiento del pedido en el mapa, en tiempo real</li>
-          <li>Direcciones guardadas con selección en mapa</li>
-          <li>Chat directo con el repartidor asignado</li>
-          <li>Calificación del repartidor al finalizar</li>
+        <ul class="benefits">
+          <li>
+            <h3>Ves qué hay antes de salir de casa</h3>
+            <p>Tiendas agrícolas cercanas, con su catálogo, productos y precios a la vista.</p>
+            <p class="why"><b>Por qué te importa:</b> no perdés un viaje por algo que no estaba.</p>
+          </li>
+          <li class="highlight">
+            <h3>Nunca perdés el vuelto</h3>
+            <p>Pagás con tarjeta o en efectivo. Si el repartidor no tiene cambio, el vuelto queda como crédito en tu cuenta para tu próxima compra.</p>
+            <p class="why"><b>Por qué te importa:</b> pagás como querés, sin andar buscando sencillo.</p>
+          </li>
+          <li>
+            <h3>Sabés por dónde viene tu pedido</h3>
+            <p>Seguís al repartidor en el mapa, en tiempo real, desde la tienda hasta tu puerta, y le escribís por chat.</p>
+            <p class="why"><b>Por qué te importa:</b> se acabó el "¿ya viene?"; sabés cuándo salir a recibirlo.</p>
+          </li>
+          <li>
+            <h3>Solo vos recibís tu compra</h3>
+            <p>El pedido se marca como entregado únicamente con tu código de verificación.</p>
+            <p class="why"><b>Por qué te importa:</b> nadie más puede recibirlo en tu nombre.</p>
+          </li>
+          <li>
+            <h3>Comprar te toma un par de toques</h3>
+            <p>Entrás con tu correo o con Google, guardás tus direcciones eligiéndolas en el mapa y al final calificás al repartidor.</p>
+            <p class="why"><b>Por qué te importa:</b> tu próxima compra es más rápida que la primera.</p>
+          </li>
         </ul>
       </div>
     </div>
 
     <div class="showcase reveal" data-app="cliente"></div>
+
+    <div class="objeciones reveal">
+      <div class="obj">
+        <p class="obj-q">"¿Y si no me llega, o se lo entregan a otra persona?"</p>
+        <p>No se puede cerrar sin vos: el pedido solo queda entregado con tu código de verificación. Mientras tanto, ves al repartidor en el mapa y podés escribirle.</p>
+      </div>
+      <div class="obj">
+        <p class="obj-q">"¿Y si pago en efectivo y no hay cambio?"</p>
+        <p>El vuelto queda como crédito en tu cuenta y se usa en tu próxima compra. Nunca perdés el cambio.</p>
+      </div>
+    </div>
+
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#" aria-disabled="true">Descargá la app</a>
+      <span class="pendiente">[PENDIENTE: enlace de Play Store / fecha de lanzamiento]</span>
+    </div>
+    <div class="testimonio reveal">[TESTIMONIO PENDIENTE: cliente]</div>
   </div>
 </section>
 
@@ -538,22 +638,64 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   <div class="wrap">
     <div class="app-head">
       <div class="reveal">
-        <span class="k-label">Aplicación 02 · Proveedor</span>
-        <h2>La tienda, su catálogo y sus pedidos en un solo panel</h2>
+        <span class="k-label">Para tiendas agrícolas</span>
+        <h2>Vendé más allá de la puerta de tu tienda</h2>
+        <p class="sec-lede">Hoy le vendés solo a quien pasa por enfrente, y montar una tienda en línea o tener repartidores propios parece fuera de alcance. Con AgroVía tu tienda aparece en el celular de los vecinos de tu zona, y nosotros llevamos los pedidos.</p>
       </div>
       <div class="reveal reveal-delay-1">
-        <p class="desc">Pensada para los dueños de tienda: un asistente de registro en cuatro pasos monta la tienda completa —cuenta, ubicación, imagen y al menos cinco productos— antes de empezar a vender.</p>
-        <ul class="feature-list">
-          <li>Registro guiado en 4 pasos, todo o nada</li>
-          <li>Edición de tienda: nombre, categoría, logo y banner</li>
-          <li>Catálogo de productos con fotos y precios</li>
-          <li>Bandeja de pedidos: pendientes, en curso e historial</li>
-          <li>Confirmación de recogida por código con el repartidor</li>
+        <ul class="benefits">
+          <li>
+            <h3>Tu tienda en línea, sin saber de tecnología</h3>
+            <p>Un registro guiado de 4 pasos: cuenta, ubicación en el mapa, logo y banner, y al menos 5 productos. Al terminar, tu tienda queda lista para vender.</p>
+            <p class="why"><b>Por qué te importa:</b> no tenés que contratar a nadie ni aprender a hacer una página web.</p>
+          </li>
+          <li>
+            <h3>Clientes nuevos de tu zona</h3>
+            <p>La app del cliente muestra las tiendas cercanas, así que te encuentran vecinos que hoy no te conocen.</p>
+            <p class="why"><b>Por qué te importa:</b> vendés a más gente sin moverte del mostrador.</p>
+          </li>
+          <li class="highlight">
+            <h3>No necesitás repartidores propios</h3>
+            <p>La red de repartidores de AgroVía recoge en tu tienda y entrega por vos.</p>
+            <p class="why"><b>Por qué te importa:</b> ofrecés entrega a domicilio sin contratar personal ni mantener un vehículo.</p>
+          </li>
+          <li>
+            <h3>Pedidos ordenados, entrega controlada</h3>
+            <p>Una bandeja con pedidos pendientes, en curso e historial. Marcás "Listo", el sistema busca repartidor, y el pedido solo sale con el código de recogida que vos confirmás.</p>
+            <p class="why"><b>Por qué te importa:</b> siempre sabés qué preparar y quién se llevó cada pedido.</p>
+          </li>
+          <li>
+            <h3>Tu marca, verificada</h3>
+            <p>Nombre, categoría, logo, banner y catálogo con fotos y precios que editás cuando querás. AgroVía revisa y aprueba cada tienda.</p>
+            <p class="why"><b>Por qué te importa:</b> los clientes compran con confianza en una tienda verificada.</p>
+          </li>
         </ul>
       </div>
     </div>
 
     <div class="showcase reveal" data-app="proveedor"></div>
+
+    <div class="objeciones reveal">
+      <div class="obj">
+        <p class="obj-q">"No sé usar estas cosas."</p>
+        <p>No hace falta. El registro te lleva paso a paso, en 4 pantallas, hasta dejar tu tienda lista. Y si te trabás, escribinos por WhatsApp y te ayudamos.</p>
+      </div>
+      <div class="obj">
+        <p class="obj-q">"¿Cuánto me cuesta?"</p>
+        <p><span class="pendiente">[PENDIENTE: modelo de comisión o tarifa]</span></p>
+      </div>
+      <div class="obj">
+        <p class="obj-q">"¿Cuándo recibo mi plata?"</p>
+        <p><span class="pendiente">[PENDIENTE: forma y plazo de pago]</span></p>
+      </div>
+    </div>
+
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#" aria-disabled="true">Registrá tu tienda</a>
+      <a class="btn btn-ghost" href="https://wa.me/50663880764?text=Hola%2C%20tengo%20una%20tienda%20agr%C3%ADcola%20y%20quiero%20vender%20con%20AgroV%C3%ADa." target="_blank" rel="noopener">Hablemos por WhatsApp</a>
+      <span class="pendiente">[PENDIENTE: enlace de descarga de la app Proveedor]</span>
+    </div>
+    <div class="testimonio reveal">[TESTIMONIO PENDIENTE: dueño de tienda]</div>
   </div>
 </section>
 
@@ -561,42 +703,130 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   <div class="wrap">
     <div class="app-head">
       <div class="reveal">
-        <span class="k-label">Aplicación 03 · Repartidor</span>
-        <h2>Aceptar, recoger y entregar, con la ruta más cercana</h2>
+        <span class="k-label">Para repartidores</span>
+        <h2>Repartí cuando querás, con pedidos cerca de vos</h2>
+        <p class="sec-lede">Sin recorridos largos sin sentido, sin discusiones por el vuelto y sin dudas sobre quién entregó qué. Activás tu disponibilidad y la app te acerca el pedido.</p>
       </div>
       <div class="reveal reveal-delay-1">
-        <p class="desc">El repartidor activa su disponibilidad y la app busca pedidos cercanos ampliando el radio de búsqueda poco a poco, desde 5 km, hasta encontrar el más cercano a la tienda.</p>
-        <ul class="feature-list">
-          <li>Búsqueda de pedidos por radio progresivo</li>
-          <li>Panel con pedidos disponibles y activos</li>
-          <li>Código de recogida al retirar en tienda</li>
-          <li>Ubicación en vivo compartida con el cliente</li>
-          <li>Historial y reporte de entregas realizadas</li>
+        <ul class="benefits">
+          <li>
+            <h3>Vos decidís cuándo trabajar</h3>
+            <p>Activás tu disponibilidad y empezás a recibir pedidos. Cuando terminás, dejás de repartir.</p>
+            <p class="why"><b>Por qué te importa:</b> acomodás el reparto a tu día, no al revés.</p>
+          </li>
+          <li class="highlight">
+            <h3>Pedidos cerca, menos kilómetros vacíos</h3>
+            <p>La app busca primero en 5 km y amplía el radio poco a poco hasta encontrar el pedido más cercano.</p>
+            <p class="why"><b>Por qué te importa:</b> gastás menos tiempo y combustible entre un pedido y otro.</p>
+          </li>
+          <li>
+            <h3>Entregas sin discusiones</h3>
+            <p>Todo en una pantalla: pedidos disponibles y activos, retiro con código de recogida y entrega con el código del cliente.</p>
+            <p class="why"><b>Por qué te importa:</b> queda claro quién entregó qué y cuándo.</p>
+          </li>
+          <li>
+            <h3>No tenés que cargar sencillo</h3>
+            <p>Si no tenés vuelto, se le acredita al cliente como crédito en la app.</p>
+            <p class="why"><b>Por qué te importa:</b> cobrás en efectivo sin andar buscando cambio.</p>
+          </li>
+          <li>
+            <h3>Tus números y tu reputación</h3>
+            <p>Chat con el cliente para coordinar la llegada, historial y reporte de tus entregas, y una calificación que suma a tu reputación.</p>
+            <p class="why"><b>Por qué te importa:</b> llevás control de lo que hacés y tu buen trabajo se nota.</p>
+          </li>
         </ul>
       </div>
     </div>
 
     <div class="showcase reveal" data-app="repartidor"></div>
+
+    <div class="objeciones reveal">
+      <div class="obj">
+        <p class="obj-q">"¿Cuánto gano por entrega?"</p>
+        <p><span class="pendiente">[PENDIENTE: tarifa o esquema de pago]</span></p>
+      </div>
+      <div class="obj">
+        <p class="obj-q">"¿Qué necesito para empezar?"</p>
+        <p><span class="pendiente">[PENDIENTE: requisitos: vehículo, licencia, documentos]</span></p>
+      </div>
+    </div>
+
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="https://wa.me/50663880764?text=Hola%2C%20quiero%20repartir%20con%20AgroV%C3%ADa." target="_blank" rel="noopener">Quiero repartir con AgroVía</a>
+    </div>
+    <div class="testimonio reveal">[TESTIMONIO PENDIENTE: repartidor]</div>
   </div>
 </section>
 
-<section class="dark" id="sistema">
+<section class="dark" id="confianza">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="k-label">Detrás del sistema</span>
-      <h2>Una sola base de datos, tres apps sincronizadas</h2>
-      <p>Las tres aplicaciones están escritas en Kotlin y comparten un mismo backend en Supabase, lo que permite que un cambio de estado en una app aparezca al instante en las otras dos.</p>
+      <span class="k-label">Por qué confiar en AgroVía</span>
+      <h2>Cada pedido, protegido de punta a punta</h2>
+      <p>Compres, vendas o repartás, estas reglas corren para todos en cada pedido.</p>
     </div>
-    <div class="stack-row reveal reveal-delay-1">
-      <span class="stack-chip">Kotlin</span>
-      <span class="stack-chip">Supabase · Postgres</span>
-      <span class="stack-chip">Supabase Realtime</span>
-      <span class="stack-chip">Supabase Storage</span>
-      <span class="stack-chip">Google Maps &amp; Places</span>
-      <span class="stack-chip">Google Sign-In</span>
-      <span class="stack-chip">Stripe</span>
-      <span class="stack-chip">EmailJS</span>
-      <span class="stack-chip">Chat en tiempo real</span>
+    <div class="trust-grid reveal reveal-delay-1">
+      <div class="trust"><h3>Código de recogida</h3><p>El repartidor solo se lleva un pedido cuando la tienda confirma su código.</p></div>
+      <div class="trust"><h3>Código de entrega</h3><p>El pedido se cierra únicamente con el código de verificación del cliente, en su puerta.</p></div>
+      <div class="trust"><h3>Seguimiento en vivo</h3><p>Cliente, tienda y repartidor ven el mismo estado al mismo tiempo, y el cliente sigue al repartidor en el mapa.</p></div>
+      <div class="trust"><h3>Tiendas verificadas</h3><p>AgroVía revisa y aprueba cada tienda antes de que empiece a vender.</p></div>
+      <div class="trust"><h3>Vuelto como crédito</h3><p>Si no hay cambio, el vuelto queda como crédito en la cuenta del cliente. Nadie pierde plata.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="k-label">Preguntas frecuentes</span>
+      <h2>Lo que nos suelen preguntar</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-col reveal">
+        <h3 class="faq-who">Si comprás</h3>
+        <details>
+          <summary>¿Qué pasa si mi pedido no llega o lo recibe otra persona?</summary>
+          <p>El pedido solo se marca como entregado con tu código de verificación. Además, ves al repartidor en el mapa en tiempo real y podés escribirle por chat durante todo el recorrido.</p>
+        </details>
+        <details>
+          <summary>¿Puedo pagar en efectivo? ¿Y si no hay cambio?</summary>
+          <p>Sí, podés pagar con tarjeta o en efectivo. Si el repartidor no tiene vuelto, el cambio queda como crédito en tu cuenta para tu próxima compra.</p>
+        </details>
+        <details>
+          <summary>¿Cómo sé cuándo llega mi pedido?</summary>
+          <p>Ves en la app en qué momento está tu pedido (pedido, listo, recogido o entregado) y, cuando va en camino, seguís al repartidor en el mapa.</p>
+        </details>
+      </div>
+      <div class="faq-col reveal reveal-delay-1">
+        <h3 class="faq-who">Si tenés una tienda</h3>
+        <details>
+          <summary>No sé mucho de tecnología, ¿puedo vender en AgroVía?</summary>
+          <p>Sí. El registro guiado te lleva en 4 pasos (cuenta, ubicación, logo y banner, y al menos 5 productos) y tu tienda queda lista para vender. Si necesitás ayuda, escribinos por WhatsApp.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto me cuesta vender en AgroVía?</summary>
+          <p><span class="pendiente">[PENDIENTE: modelo de comisión o tarifa]</span></p>
+        </details>
+        <details>
+          <summary>¿Cuándo y cómo recibo el dinero de mis ventas?</summary>
+          <p><span class="pendiente">[PENDIENTE: forma y plazo de pago]</span></p>
+        </details>
+      </div>
+      <div class="faq-col reveal reveal-delay-2">
+        <h3 class="faq-who">Si querés repartir</h3>
+        <details>
+          <summary>¿Tengo un horario fijo?</summary>
+          <p>No. Activás tu disponibilidad cuando querés trabajar y dejás de repartir cuando terminás.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto gano por entrega?</summary>
+          <p><span class="pendiente">[PENDIENTE: tarifa o esquema de pago]</span></p>
+        </details>
+        <details>
+          <summary>¿Qué necesito para empezar?</summary>
+          <p><span class="pendiente">[PENDIENTE: requisitos: vehículo, licencia, documentos]</span></p>
+        </details>
+      </div>
     </div>
   </div>
 </section>
@@ -607,24 +837,29 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
       <div class="foot-brand reveal">
         <img src="assets/logo/agrovia-logo-cream.png" alt="AgroVía" class="foot-logo">
         <h2>Hablemos<br>de AgroVía.</h2>
-        <p>¿Tenés una tienda agrícola, sos repartidor o querés saber más del proyecto? Escribinos.</p>
+        <p>¿Querés comprar, vender o repartir? Escribinos y te contamos cómo empezar.</p>
+        <div class="foot-ctas">
+          <a class="btn btn-primary" href="#cliente">Quiero comprar</a>
+          <a class="btn btn-ghost" href="https://wa.me/50663880764?text=Hola%2C%20tengo%20una%20tienda%20agr%C3%ADcola%20y%20quiero%20vender%20con%20AgroV%C3%ADa." target="_blank" rel="noopener">Tengo una tienda</a>
+          <a class="btn btn-ghost" href="https://wa.me/50663880764?text=Hola%2C%20quiero%20repartir%20con%20AgroV%C3%ADa." target="_blank" rel="noopener">Quiero repartir</a>
+        </div>
       </div>
       <div class="foot-col reveal reveal-delay-1">
         <h5>Contacto</h5>
         <a href="mailto:agroviacontact@gmail.com">agroviacontact@gmail.com</a>
         <a href="tel:+50663880764">+506 6388 0764</a>
+        <a href="https://wa.me/50663880764" target="_blank" rel="noopener">WhatsApp Business</a>
         <span class="muted">San José, Costa Rica</span>
       </div>
       <div class="foot-col reveal reveal-delay-2">
         <h5>Redes</h5>
         <a href="#">Instagram (próximamente)</a>
         <a href="#">Facebook (próximamente)</a>
-        <a href="#">WhatsApp Business</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 AgroVía. Ecosistema Cliente · Proveedor · Repartidor.</span>
-      <span class="mono">Kotlin · Supabase</span>
+      <span>© 2026 AgroVía. Del campo a tu mesa.</span>
+      <span class="mono">Hecho con tecnología confiable</span>
     </div>
   </div>
 </footer>
@@ -666,7 +901,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const SCREENS = {
   cliente: [
     [5, "Inicio y catálogo", "HomeFragment", "Tiendas cercanas, promociones y búsqueda de productos en un solo lugar."],
-    [6, "Carrito de compra", "CarritoFragment", "Ajusta cantidades, revisa el total y continúa al pago integrado."],
+    [6, "Carrito de compra", "CarritoFragment", "Ajustá cantidades, revisá el total y pagá con tarjeta o en efectivo."],
     [8, "Seguimiento en tiempo real", "SeguimientoFragment", "El repartidor en el mapa, el estado del pedido y el código de entrega."],
     [7, "Mis pedidos", "HistorialFragment", "El historial con el estado de cada orden: entregada, cancelada o en curso."],
     [12, "Mi perfil", "ConfiguracionFragment", "Créditos, direcciones guardadas, soporte y configuración de la cuenta."],
@@ -714,7 +949,6 @@ function initShowcase(root) {
       </div>
       <div class="sc-meta" aria-live="polite">
         <h4></h4>
-        <p></p>
       </div>
       <div class="sc-nav">
         <button class="sc-arrow" data-dir="-1" aria-label="Pantalla anterior">${arrowSvg('M10 3 5 8l5 5')}</button>
@@ -729,13 +963,12 @@ function initShowcase(root) {
   const dots = [...root.querySelectorAll('.sc-dots button')];
   const phone = root.querySelector('.sc-phone');
   const meta = root.querySelector('.sc-meta');
-  const [mTitle, mCls] = [meta.querySelector('h4'), meta.querySelector('p')];
+  const mTitle = meta.querySelector('h4');
   let cur = -1, elapsed = 0, hovering = false, inView = false, metaTimer;
 
   function setMeta(i) {
-    const [, title, cls] = data[i];
+    const [, title] = data[i];
     mTitle.textContent = title;
-    mCls.textContent = cls;
   }
 
   function go(i, dir) {
@@ -1198,7 +1431,7 @@ document.querySelectorAll('.showcase').forEach(initShowcase);
   scene.add(dust);
 
   // ---- scroll → progreso por sección real ----
-  const groups = [['.hero'], ['#flujo', '#estados'], ['#cliente'], ['#proveedor'], ['#repartidor'], ['#sistema', '#contacto']]
+  const groups = [['.hero'], ['#flujo', '#estados'], ['#cliente'], ['#proveedor'], ['#repartidor'], ['#confianza', '#faq', '#contacto']]
     .map(sels => sels.map(s => document.querySelector(s)).filter(Boolean));
 
   function targetProgress() {
