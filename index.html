@@ -83,7 +83,7 @@ a{color:inherit;}
 .stage-nav button.active i{background:var(--verde-primary);border-color:var(--verde-primary);transform:scale(1.35);box-shadow:0 0 0 4px rgba(74,222,128,.14);}
 @media(max-width:1100px){.stage-nav{display:none;}}
 /* separa el texto del fondo animado */
-.hero-grid, .section-head, .app-head, .ruta-body, .estados, .foot-grid{text-shadow:0 1px 14px rgba(4,13,7,.9);}
+.hero-grid, .section-head, .app-head, .ruta-body, .estados, .foot-grid, .sc-meta{text-shadow:0 1px 14px rgba(4,13,7,.9);}
 
 /* ---------- reveal ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
@@ -303,110 +303,96 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
 .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:34px;font-size:12.5px;color:rgba(245,245,220,.4);flex-wrap:wrap;gap:12px;}
 @media(max-width:820px){.foot-grid{grid-template-columns:1fr;gap:40px;}}
 
-/* ---------- PROTOTIPO INTERACTIVO ---------- */
-.interactive-prototype {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 40px;
-  align-items: center;
-  margin-top: 30px;
+/* ---------- SHOWCASE DE PANTALLAS ---------- */
+.showcase{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:48px;
+  align-items:center;
+  margin-top:30px;
 }
 
-.screens-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 500px;
-  overflow-y: auto;
-  padding-right: 10px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--verde-primary) transparent;
+.sc-steps{display:flex;flex-direction:column;gap:8px;}
+.sc-step{
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:34px 1fr;gap:4px 12px;align-items:start;
+  width:100%;text-align:left;cursor:pointer;
+  background:var(--blanco-card);
+  border:1px solid var(--linea);border-radius:var(--radius);
+  padding:14px 16px 16px;
+  font-family:'Inter',sans-serif;color:var(--tinta-60);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:background .45s ease, border-color .45s ease, color .45s ease, transform .45s cubic-bezier(.22,.8,.2,1);
 }
-.screens-menu::-webkit-scrollbar {
-  width: 6px;
+.sc-step:hover{border-color:rgba(74,222,128,.35);color:var(--tinta);}
+.sc-step:focus-visible{outline:2px solid var(--verde-primary);outline-offset:2px;}
+.sc-step.active{background:var(--verde-soft);border-color:rgba(74,222,128,.55);color:var(--tinta);transform:translateX(6px);}
+.sc-num{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--verde-primary);padding-top:2px;}
+.sc-title{font-size:15px;font-weight:600;line-height:1.35;}
+.sc-desc{
+  grid-column:2;font-size:13.5px;line-height:1.5;color:var(--tinta-60);
+  display:grid;grid-template-rows:0fr;opacity:0;
+  transition:grid-template-rows .5s cubic-bezier(.22,.8,.2,1), opacity .4s ease;
 }
-.screens-menu::-webkit-scrollbar-thumb {
-  background: var(--linea);
-  border-radius: 10px;
+.sc-desc > span{overflow:hidden;}
+.sc-step.active .sc-desc{grid-template-rows:1fr;opacity:1;}
+.sc-bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(238,242,234,.06);}
+.sc-bar i{display:block;height:100%;background:var(--verde-primary);transform-origin:left;transform:scaleX(0);}
+
+.sc-stage{display:flex;flex-direction:column;align-items:center;gap:18px;perspective:1200px;}
+.sc-phone{
+  width:260px;aspect-ratio:540/1206;
+  position:relative;
+  border-radius:36px;
+  background:#081a0c;
+  border:5px solid #17232e;
+  box-shadow:0 30px 60px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(245,245,220,.06);
+  overflow:hidden;
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.22,.8,.2,1);
+  touch-action:pan-y;
+  cursor:grab;
+}
+.sc-phone:active{cursor:grabbing;}
+.sc-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:translateX(14%) scale(.96);
+  transition:transform .85s cubic-bezier(.22,.8,.2,1), opacity .6s ease, filter .85s ease;
+  will-change:transform, opacity;
+  user-select:none;-webkit-user-drag:none;
+}
+.sc-glare{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:linear-gradient(115deg, rgba(255,255,255,.08) 0%, transparent 35%);
 }
 
-.screen-btn {
-  background: var(--blanco-card);
-  border: 1px solid var(--linea);
-  padding: 12px 16px;
-  border-radius: var(--radius);
-  text-align: left;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: var(--tinta-60);
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.sc-meta{text-align:center;transition:opacity .25s ease, transform .25s ease;}
+.sc-meta.out{opacity:0;transform:translateY(6px);}
+.sc-meta h4{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:4px 0 2px;color:var(--papel);}
+.sc-meta p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tinta-60);}
 
-.screen-btn span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  color: var(--verde-primary);
-  font-weight: 600;
+.sc-nav{display:flex;align-items:center;gap:14px;}
+.sc-arrow{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--blanco-card);border:1px solid var(--linea);color:var(--tinta);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:border-color .25s, background .25s, transform .25s;
 }
-
-.screen-btn:hover, .screen-btn.active {
-  background: var(--verde-soft);
-  border-color: var(--verde-primary);
-  color: var(--tinta);
-  transform: translateX(4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+.sc-arrow:hover{border-color:var(--verde-primary);background:var(--verde-soft);transform:scale(1.06);}
+.sc-arrow svg{width:16px;height:16px;}
+.sc-dots{display:flex;gap:7px;}
+.sc-dots button{
+  width:7px;height:7px;border-radius:4px;border:none;padding:0;cursor:pointer;
+  background:rgba(238,242,234,.25);
+  transition:width .45s cubic-bezier(.22,.8,.2,1), background .45s;
 }
+.sc-dots button.active{width:22px;background:var(--verde-primary);}
 
-.prototype-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.phone-frame {
-  width: 250px;
-  border-radius: 34px;
-  background: #081a0c;
-  border: 5px solid #17232e;
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(245,245,220,.06);
-  overflow: hidden;
-}
-
-.phone-screen img {
-  width: 100%;
-  display: block;
-  transition: opacity 0.2s ease;
-}
-
-.screen-info {
-  text-align: center;
-}
-
-.screen-info h4 {
-  font-size: 18px;
-  margin: 4px 0 2px;
-}
-
-.screen-info p {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  color: var(--tinta-60);
-}
-
-@media(max-width: 820px) {
-  .interactive-prototype {
-    grid-template-columns: 1fr;
-  }
-  .screens-menu {
-    max-height: 250px;
-  }
+@media(max-width: 860px) {
+  .showcase{grid-template-columns:1fr;gap:28px;}
+  .sc-stage{order:-1;}
+  .sc-phone{width:230px;}
+  .sc-step.active{transform:none;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -544,21 +530,7 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
       </div>
     </div>
 
-    <div class="interactive-prototype reveal">
-      <div class="screens-menu" id="menu-cliente"></div>
-      <div class="prototype-stage">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <img id="active-screen-cliente" src="assets/img/s1.jpg" alt="Pantalla activa app Cliente">
-          </div>
-        </div>
-        <div class="screen-info">
-          <span class="mono" id="screen-num-cliente">ANEXO 01</span>
-          <h4 id="screen-title-cliente">Inicio de sesión</h4>
-          <p id="screen-class-cliente">LoginActivity</p>
-        </div>
-      </div>
-    </div>
+    <div class="showcase reveal" data-app="cliente"></div>
   </div>
 </section>
 
@@ -581,21 +553,7 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
       </div>
     </div>
 
-    <div class="interactive-prototype reveal">
-      <div class="screens-menu" id="menu-proveedor"></div>
-      <div class="prototype-stage">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <img id="active-screen-proveedor" src="assets/img/s22.jpg" alt="Pantalla activa app Proveedor">
-          </div>
-        </div>
-        <div class="screen-info">
-          <span class="mono" id="screen-num-proveedor">ANEXO 22</span>
-          <h4 id="screen-title-proveedor">Inicio de sesión</h4>
-          <p id="screen-class-proveedor">LoginProveedorActivity</p>
-        </div>
-      </div>
-    </div>
+    <div class="showcase reveal" data-app="proveedor"></div>
   </div>
 </section>
 
@@ -618,21 +576,7 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
       </div>
     </div>
 
-    <div class="interactive-prototype reveal">
-      <div class="screens-menu" id="menu-repartidor"></div>
-      <div class="prototype-stage">
-        <div class="phone-frame">
-          <div class="phone-screen">
-            <img id="active-screen-repartidor" src="assets/img/s14.jpg" alt="Pantalla activa app Repartidor">
-          </div>
-        </div>
-        <div class="screen-info">
-          <span class="mono" id="screen-num-repartidor">ANEXO 14</span>
-          <h4 id="screen-title-repartidor">Inicio de sesión</h4>
-          <p id="screen-class-repartidor">LoginRepartidorActivity</p>
-        </div>
-      </div>
-    </div>
+    <div class="showcase reveal" data-app="repartidor"></div>
   </div>
 </section>
 
@@ -718,96 +662,185 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Datos de las pantallas
-const cliente = [
-  [1,"Inicio de sesión","LoginActivity"],
-  [2,"Registro de cuenta","RegistroActivity"],
-  [3,"Verificación de cuenta","VerificacionActivity"],
-  [4,"Recuperar contraseña","RecuperarPassActivity"],
-  [5,"Inicio y catálogo","HomeFragment"],
-  [6,"Carrito de compra","CarritoFragment"],
-  [7,"Historial de pedidos","HistorialFragment"],
-  [8,"Seguimiento en tiempo real","SeguimientoFragment"],
-  [9,"Editar perfil","EditarPerfilActivity"],
-  [10,"Direcciones guardadas","DireccionesActivity"],
-  [11,"Agregar dirección","DireccionActivity"],
-  [12,"Mi perfil","ConfiguracionFragment"],
-  [13,"Configuración de la app","ConfiguracionAppActivity"],
-];
+// Pantallas principales de cada app: [anexo, título, clase, descripción]
+const SCREENS = {
+  cliente: [
+    [5, "Inicio y catálogo", "HomeFragment", "Tiendas cercanas, promociones y búsqueda de productos en un solo lugar."],
+    [6, "Carrito de compra", "CarritoFragment", "Ajusta cantidades, revisa el total y continúa al pago integrado."],
+    [8, "Seguimiento en tiempo real", "SeguimientoFragment", "El repartidor en el mapa, el estado del pedido y el código de entrega."],
+    [7, "Mis pedidos", "HistorialFragment", "El historial con el estado de cada orden: entregada, cancelada o en curso."],
+    [12, "Mi perfil", "ConfiguracionFragment", "Créditos, direcciones guardadas, soporte y configuración de la cuenta."],
+  ],
+  proveedor: [
+    [24, "Registro guiado", "RegistroProveedorActivity", "Cuatro pasos: cuenta, ubicación, imágenes y al menos cinco productos."],
+    [28, "Gestión de tienda", "TiendaActivity", "Logo, banner, descripción, categoría y ubicación de la tienda."],
+    [30, "Mis productos", "ProductosActivity", "El catálogo publicado, con fotos y precios, listo para vender."],
+    [31, "Nuevo producto", "ProductoEditActivity", "Nombre, precio, descripción y foto para sumar un producto al catálogo."],
+    [32, "Bandeja de pedidos", "PedidosFragment", "Pedidos pendientes, en curso e historial, separados por pestañas."],
+  ],
+  repartidor: [
+    [17, "Panel principal", "DashboardRepartidorActivity", "Ganancias y viajes del día, y el botón para empezar a buscar pedidos."],
+    [18, "Buscando pedidos", "RepartirActivity", "Busca pedidos cercanos ampliando el radio poco a poco, desde 5 km."],
+    [19, "¡Nuevo pedido!", "RepartirActivity", "Ganancia estimada, tienda de recogida y dirección de entrega, listo para aceptar."],
+    [21, "Reporte semanal", "ReporteRepartidorActivity", "Ganancias y entregas completadas durante la semana."],
+    [20, "Perfil del repartidor", "PerfilRepartidorActivity", "Calificación, reseñas y total de entregas realizadas."],
+  ],
+};
 
-const repartidor = [
-  [14,"Inicio de sesión","LoginRepartidorActivity"],
-  [15,"Recuperar contraseña","LoginRepartidorActivity"],
-  [16,"Registro de repartidor","RegistroRepartidorActivity"],
-  [17,"Panel principal","DashboardRepartidorActivity"],
-  [18,"Buscando pedido","RepartirActivity"],
-  [19,"Pedido encontrado","RepartirActivity"],
-  [20,"Perfil del repartidor","PerfilRepartidorActivity"],
-  [21,"Reporte de entregas","ReporteRepartidorActivity"],
-];
+const SC_DURATION = 5200; // ms por pantalla en el avance automático
+const scReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pad2 = n => (n < 10 ? '0' : '') + n;
+const arrowSvg = d => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 
-const proveedor = [
-  [22,"Inicio de sesión","LoginProveedorActivity"],
-  [23,"Recuperar contraseña","LoginProveedorActivity"],
-  [24,"Registro · Paso 1: cuenta y tienda","RegistroProveedorActivity"],
-  [25,"Registro · Paso 2: ubicación","RegistroProveedorActivity"],
-  [26,"Registro · Paso 3: logo y banner","RegistroProveedorActivity"],
-  [27,"Registro · Paso 4: productos","RegistroProveedorActivity"],
-  [28,"Gestión de tienda","TiendaActivity"],
-  [29,"Gestión de tienda","TiendaActivity"],
-  [30,"Catálogo de productos","ProductosActivity"],
-  [31,"Agregar producto","ProductoEditActivity"],
-  [32,"Pedidos pendientes","PedidosFragment"],
-  [33,"Pedidos en curso","PedidosFragment"],
-  [34,"Historial de pedidos","PedidosFragment"],
-];
+function initShowcase(root) {
+  const app = root.dataset.app;
+  const data = SCREENS[app];
+  if (!data) return;
 
-// Lógica del prototipo interactivo (CORREGIDO EL NOMBRE DE LA IMAGEN)
-function initPrototype(menuId, imgId, infoPrefix, data) {
-  const menu = document.getElementById(menuId);
-  const img = document.getElementById(imgId);
+  root.innerHTML = `
+    <div class="sc-steps" role="tablist" aria-label="Pantallas de la app ${app}">
+      ${data.map(([n, title, , desc], i) => `
+        <button class="sc-step" role="tab" aria-selected="false" tabindex="-1" data-i="${i}">
+          <span class="sc-num">${pad2(i + 1)}</span>
+          <span class="sc-title">${title}</span>
+          <span class="sc-desc"><span>${desc}</span></span>
+          <span class="sc-bar"><i></i></span>
+        </button>`).join('')}
+    </div>
+    <div class="sc-stage">
+      <div class="sc-phone">
+        ${data.map(([n, title], i) => `<img class="sc-img" src="assets/img/s${n}.jpg" alt="App ${app}: ${title}" decoding="async" draggable="false">`).join('')}
+        <div class="sc-glare"></div>
+      </div>
+      <div class="sc-meta" aria-live="polite">
+        <h4></h4>
+        <p></p>
+      </div>
+      <div class="sc-nav">
+        <button class="sc-arrow" data-dir="-1" aria-label="Pantalla anterior">${arrowSvg('M10 3 5 8l5 5')}</button>
+        <div class="sc-dots">${data.map((d, i) => `<button aria-label="Ir a la pantalla ${i + 1}" data-i="${i}"></button>`).join('')}</div>
+        <button class="sc-arrow" data-dir="1" aria-label="Pantalla siguiente">${arrowSvg('M6 3l5 5-5 5')}</button>
+      </div>
+    </div>`;
 
-  if (!menu || !img) return;
+  const steps = [...root.querySelectorAll('.sc-step')];
+  const bars = steps.map(s => s.querySelector('.sc-bar i'));
+  const imgs = [...root.querySelectorAll('.sc-img')];
+  const dots = [...root.querySelectorAll('.sc-dots button')];
+  const phone = root.querySelector('.sc-phone');
+  const meta = root.querySelector('.sc-meta');
+  const [mTitle, mCls] = [meta.querySelector('h4'), meta.querySelector('p')];
+  let cur = -1, elapsed = 0, hovering = false, inView = false, metaTimer;
 
-  menu.innerHTML = data.map(([n, name, cls], index) => {
-    // Formato visible en el botón (ANEXO 01, ANEXO 02...)
-    const formattedNum = n < 10 ? '0' + n : n; 
-    
-    // Nombre del archivo de imagen real sin cero inicial (s1.jpg, s2.jpg...)
-    const fileName = `s${n}.jpg`;
+  function setMeta(i) {
+    const [, title, cls] = data[i];
+    mTitle.textContent = title;
+    mCls.textContent = cls;
+  }
 
-    return `
-      <button class="screen-btn ${index === 0 ? 'active' : ''}" 
-              data-img="${fileName}" 
-              data-num="${formattedNum}" 
-              data-title="${name}" 
-              data-cls="${cls}">
-        <span>ANEXO ${formattedNum}</span> ${name}
-      </button>
-    `;
-  }).join('');
+  function go(i, dir) {
+    i = (i + data.length) % data.length;
+    if (i === cur) return;
+    if (dir == null) dir = cur < 0 || i > cur ? 1 : -1;
+    const inc = imgs[i], out = imgs[cur];
 
-  menu.querySelectorAll('.screen-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      menu.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    // la pantalla nueva entra desde el lado hacia el que se avanza
+    inc.style.transition = 'none';
+    inc.style.transform = scReduce ? 'none' : `translateX(${dir * 14}%) scale(.96)`;
+    inc.style.opacity = '0';
+    inc.style.filter = 'brightness(1.15)';
+    inc.offsetWidth; // fuerza el punto de partida antes de animar
+    inc.style.transition = '';
+    inc.style.transform = 'none';
+    inc.style.opacity = '1';
+    inc.style.filter = 'none';
+    inc.style.zIndex = 2;
+    if (out) {
+      out.style.transform = scReduce ? 'none' : `translateX(${-dir * 10}%) scale(.94)`;
+      out.style.opacity = '0';
+      out.style.filter = 'brightness(.6)';
+      out.style.zIndex = 1;
+    }
+    imgs.forEach((im, k) => { if (k !== i && k !== cur) im.style.zIndex = 0; });
 
-      img.style.opacity = '0';
-      setTimeout(() => {
-        img.src = `assets/img/${btn.dataset.img}`;
-        document.getElementById(`screen-num-${infoPrefix}`).textContent = `ANEXO ${btn.dataset.num}`;
-        document.getElementById(`screen-title-${infoPrefix}`).textContent = btn.dataset.title;
-        document.getElementById(`screen-class-${infoPrefix}`).textContent = btn.dataset.cls;
-        img.style.opacity = '1';
-      }, 150);
+    steps.forEach((s, k) => {
+      const on = k === i;
+      s.classList.toggle('active', on);
+      s.setAttribute('aria-selected', on);
+      s.tabIndex = on ? 0 : -1;
     });
+    dots.forEach((d, k) => d.classList.toggle('active', k === i));
+    bars.forEach(b => { b.style.transform = 'scaleX(0)'; });
+
+    if (cur < 0) setMeta(i);
+    else {
+      meta.classList.add('out');
+      clearTimeout(metaTimer);
+      metaTimer = setTimeout(() => { setMeta(i); meta.classList.remove('out'); }, 220);
+    }
+    cur = i;
+    elapsed = 0;
+  }
+
+  steps.forEach(s => s.addEventListener('click', () => go(+s.dataset.i)));
+  dots.forEach(d => d.addEventListener('click', () => go(+d.dataset.i)));
+  root.querySelectorAll('.sc-arrow').forEach(a => a.addEventListener('click', () => go(cur + +a.dataset.dir, +a.dataset.dir)));
+
+  // teclado dentro de la lista: flechas, Inicio, Fin
+  root.querySelector('.sc-steps').addEventListener('keydown', e => {
+    const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    let n = null;
+    if (k) n = cur + k; else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = data.length - 1;
+    if (n === null) return;
+    e.preventDefault();
+    go(n, k || (n > cur ? 1 : -1));
+    steps[cur].focus();
   });
+
+  // deslizar el teléfono (touch o mouse) para cambiar de pantalla
+  let sx = null, sy = null;
+  phone.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
+  window.addEventListener('pointerup', e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    sx = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+  });
+
+  // leve inclinación 3D del teléfono siguiendo el puntero
+  const stage = root.querySelector('.sc-stage');
+  if (!scReduce && window.matchMedia('(hover: hover)').matches) {
+    stage.addEventListener('pointermove', e => {
+      const r = phone.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+      phone.style.transform = `rotateY(${px * 10}deg) rotateX(${-py * 7}deg)`;
+    });
+    stage.addEventListener('pointerleave', () => { phone.style.transform = ''; });
+  }
+
+  // avance automático: solo con la sección a la vista y sin el puntero encima
+  root.addEventListener('pointerenter', () => { hovering = true; });
+  root.addEventListener('pointerleave', () => { hovering = false; });
+  root.addEventListener('focusin', () => { hovering = true; });
+  root.addEventListener('focusout', () => { hovering = false; });
+  new IntersectionObserver(([en]) => { inView = en.isIntersecting; }, { threshold: 0.35 }).observe(root);
+
+  go(0);
+  if (scReduce) return;
+  let last = performance.now();
+  (function tick(now) {
+    const dt = now - last;
+    last = now;
+    if (inView && !hovering && !document.hidden) {
+      elapsed += dt;
+      bars[cur].style.transform = `scaleX(${Math.min(1, elapsed / SC_DURATION)})`;
+      if (elapsed >= SC_DURATION) go(cur + 1, 1);
+    }
+    requestAnimationFrame(tick);
+  })(last);
 }
 
-// Inicialización de prototipos
-initPrototype('menu-cliente', 'active-screen-cliente', 'cliente', cliente);
-initPrototype('menu-proveedor', 'active-screen-proveedor', 'proveedor', proveedor);
-initPrototype('menu-repartidor', 'active-screen-repartidor', 'repartidor', repartidor);
+document.querySelectorAll('.showcase').forEach(initShowcase);
 </script>
 
 <script>
