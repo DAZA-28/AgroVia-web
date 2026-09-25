@@ -11,32 +11,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,480;0,9..144,600;1,9..144,420&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Fondos y Superficies */
-  --papel: #f8fafc;
-  --papel-2: #f1f5f9;
-  --blanco-card: #ffffff;
-  
+  /* Fondos y Superficies (tema oscuro único) */
+  --fondo: #040d07;
+  --fondo-2: #081a0e;
+  --papel: #f5f5dc;
+  --blanco-card: rgba(245, 245, 220, 0.035);
+
   /* Verdes y Acentos */
-  --verde-primary: #16a34a;
-  --verde-hover: #15803d;
-  --verde-soft: rgba(22, 163, 74, 0.1);
+  --verde-primary: #4ade80;
+  --verde-hover: #22c55e;
+  --verde-soft: rgba(74, 222, 128, 0.1);
   --azul-2: #38bdf8;
-  
+
   /* Secciones Dark & Hero */
   --verde-950: #052e16;
   --verde-900: #0f172a;
-  
+
   /* Tipografía y Líneas */
-  --tinta: #0f172a;
-  --tinta-60: #64748b;
-  --linea: #e2e8f0;
+  --tinta: #eef2ea;
+  --tinta-60: rgba(238, 242, 234, 0.64);
+  --linea: rgba(238, 242, 234, 0.1);
   --radius: 8px;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;background:var(--fondo);}
 body{
   margin:0;
-  background:var(--papel);
+  background:
+    radial-gradient(90% 60% at 15% 0%, rgba(28,61,32,.55) 0%, transparent 60%),
+    radial-gradient(70% 50% at 90% 100%, rgba(8,47,73,.35) 0%, transparent 70%),
+    var(--fondo);
+  background-attachment:fixed;
   color:var(--tinta);
   font-family:'Inter',sans-serif;
   -webkit-font-smoothing:antialiased;
@@ -48,6 +53,37 @@ h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;line-height:1.05;
 p{margin:0;}
 .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
 a{color:inherit;}
+
+/* ---------- fondo 3D de partículas ---------- */
+#particles{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;display:block;
+}
+.hero, section, footer{position:relative;z-index:1;}
+
+/* indicador de etapa */
+.stage-nav{
+  position:fixed;right:26px;top:50%;transform:translateY(-50%);
+  z-index:90;display:flex;flex-direction:column;gap:14px;
+}
+.stage-nav button{
+  display:flex;align-items:center;justify-content:flex-end;gap:12px;
+  background:none;border:none;padding:2px 0;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(238,242,234,.4);
+}
+.stage-nav button span.lbl{opacity:0;transform:translateX(6px);transition:opacity .35s, transform .35s, color .35s;}
+.stage-nav button i{
+  width:7px;height:7px;border-radius:50%;flex:0 0 auto;
+  border:1px solid rgba(238,242,234,.35);
+  transition:background .35s, border-color .35s, transform .35s, box-shadow .35s;
+}
+.stage-nav:hover button span.lbl, .stage-nav button.active span.lbl{opacity:1;transform:none;}
+.stage-nav button.active{color:var(--papel);}
+.stage-nav button.active i{background:var(--verde-primary);border-color:var(--verde-primary);transform:scale(1.35);box-shadow:0 0 0 4px rgba(74,222,128,.14);}
+@media(max-width:1100px){.stage-nav{display:none;}}
+/* separa el texto del fondo animado */
+.hero-grid, .section-head, .app-head, .ruta-body, .estados, .foot-grid{text-shadow:0 1px 14px rgba(4,13,7,.9);}
 
 /* ---------- reveal ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
@@ -61,8 +97,9 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:20px 32px;
-  background:rgba(245,245,220,.72);
-  backdrop-filter:blur(10px);
+  background:rgba(4,13,7,.55);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid transparent;
   transition:border-color .3s, background .3s;
 }
@@ -85,7 +122,9 @@ nav.scrolled{border-color:var(--linea);}
   .nav-links{
     display:flex;flex-direction:column;gap:0;
     position:fixed;top:73px;left:0;right:0;
-    background:var(--papel);
+    background:rgba(4,13,7,.94);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     border-bottom:1px solid var(--linea);
     padding:6px 32px 18px;
     transform:translateY(-12px);
@@ -101,7 +140,7 @@ nav.scrolled{border-color:var(--linea);}
 /* ---------- hero ---------- */
 .hero{
   min-height:100svh;
-  background:radial-gradient(120% 100% at 15% 0%, #1c3d20 0%, var(--verde-950) 60%, #081a0c 100%);
+  background:transparent;
   color:var(--papel);
   position:relative;
   display:flex;align-items:center;
@@ -172,7 +211,10 @@ section{padding:118px 0;position:relative;}
 }
 .section-head h2{font-size:clamp(28px,3.6vw,42px);letter-spacing:-.01em;}
 .section-head p{margin-top:18px;font-size:16.5px;line-height:1.65;color:var(--tinta-60);max-width:56ch;}
-.dark{background:var(--verde-950);color:var(--papel);}
+.dark{
+  background:linear-gradient(to bottom, transparent, rgba(8,26,14,.55) 18%, rgba(8,26,14,.55) 82%, transparent);
+  color:var(--papel);
+}
 .dark .k-label{color:var(--azul-2);}
 .dark .section-head p{color:rgba(245,245,220,.62);}
 
@@ -192,7 +234,7 @@ section{padding:118px 0;position:relative;}
 .ruta-stop + .ruta-stop{margin-top:56px;}
 .ruta-num{
   width:60px;height:60px;border-radius:50%;
-  background:var(--papel);border:1px solid var(--linea);
+  background:var(--fondo);border:1px solid rgba(238,242,234,.18);
   display:flex;align-items:center;justify-content:center;
   font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--tinta-60);
   position:relative;z-index:2;
@@ -200,7 +242,7 @@ section{padding:118px 0;position:relative;}
 .ruta-body{padding:8px 0 8px 30px;}
 .ruta-body .tag{
   display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--verde-primary);
-  background:rgba(22,163,74,.08);padding:3px 9px;border-radius:20px;margin-bottom:12px;
+  background:rgba(74,222,128,.09);padding:3px 9px;border-radius:20px;margin-bottom:12px;
 }
 .ruta-body h3{font-size:22px;margin-bottom:9px;}
 .ruta-body p{color:var(--tinta-60);font-size:15.5px;line-height:1.6;max-width:52ch;}
@@ -249,7 +291,7 @@ section{padding:118px 0;position:relative;}
 }
 
 /* ---------- footer / contact ---------- */
-footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
+footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);color:var(--papel);padding:100px 0 40px;}
 .foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:60px;padding-bottom:70px;border-bottom:1px solid rgba(245,245,220,.12);}
 .foot-logo{height:52px;width:auto;margin-bottom:26px;}
 .foot-brand h2{font-size:clamp(30px,4vw,44px);max-width:9ch;}
@@ -298,6 +340,8 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   font-size: 14px;
   color: var(--tinta-60);
   cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   transition: all 0.25s ease;
   display: flex;
   align-items: center;
@@ -316,7 +360,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   border-color: var(--verde-primary);
   color: var(--tinta);
   transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .prototype-stage {
@@ -331,7 +375,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   border-radius: 34px;
   background: #081a0c;
   border: 5px solid #17232e;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(245,245,220,.06);
   overflow: hidden;
 }
 
@@ -364,12 +408,29 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
     max-height: 250px;
   }
 }
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  .reveal{transition:none;opacity:1;transform:none;}
+  .phone, .ruta-line .dot{animation:none;}
+}
 </style>
 </head>
 <body>
 
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<div class="stage-nav" id="stageNav" aria-label="Etapas de AgroVía">
+  <button data-stage="0"><span class="lbl">Campo</span><i></i></button>
+  <button data-stage="1"><span class="lbl">Ruta</span><i></i></button>
+  <button data-stage="2"><span class="lbl">Cliente</span><i></i></button>
+  <button data-stage="3"><span class="lbl">Tienda</span><i></i></button>
+  <button data-stage="4"><span class="lbl">Reparto</span><i></i></button>
+  <button data-stage="5"><span class="lbl">Sistema</span><i></i></button>
+</div>
+
 <nav id="nav">
-  <div class="brand"><img src="assets/logo/agrovia-logo-color.png" alt="AgroVía" class="brand-logo"></div>
+  <div class="brand"><img src="assets/logo/agrovia-logo-cream.png" alt="AgroVía" class="brand-logo"></div>
   <div class="nav-links" id="navLinks">
     <a href="#flujo">Cómo funciona</a>
     <a href="#cliente">Cliente</a>
@@ -451,7 +512,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   </div>
 </section>
 
-<section class="dark" style="padding:80px 0;">
+<section class="dark" id="estados" style="padding:80px 0;">
   <div class="wrap reveal">
     <span class="k-label">Máquina de estados del pedido</span>
     <div class="estados">
@@ -501,7 +562,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   </div>
 </section>
 
-<section class="app-section" id="proveedor" style="background:var(--papel-2);">
+<section class="app-section" id="proveedor">
   <div class="wrap">
     <div class="app-head">
       <div class="reveal">
@@ -575,7 +636,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   </div>
 </section>
 
-<section class="dark">
+<section class="dark" id="sistema">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="k-label">Detrás del sistema</span>
@@ -624,8 +685,7 @@ footer{background:var(--verde-950);color:var(--papel);padding:100px 0 40px;}
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 // Menú móvil y navegación
@@ -748,6 +808,452 @@ function initPrototype(menuId, imgId, infoPrefix, data) {
 initPrototype('menu-cliente', 'active-screen-cliente', 'cliente', cliente);
 initPrototype('menu-proveedor', 'active-screen-proveedor', 'proveedor', proveedor);
 initPrototype('menu-repartidor', 'active-screen-repartidor', 'repartidor', repartidor);
+</script>
+
+<script>
+// ---------- Partículas 3D ligadas al scroll ----------
+// Seis formas, una por bloque de contenido: hoja (campo), pin de ruta,
+// teléfono con check (Cliente), tienda (Proveedor), paquete en movimiento
+// (Repartidor) y red de tres apps sobre una base de datos (Sistema).
+(function () {
+  const canvas = document.getElementById('particles');
+  if (!window.THREE || !canvas) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobile = window.innerWidth < 760;
+  const N = mobile ? 3600 : 7200;
+  const DUST = mobile ? 380 : 900;
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  // PRNG con semilla: las formas salen siempre iguales
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const rr = (a, b) => a + (b - a) * rnd();
+  const pick = arr => arr[Math.floor(rnd() * arr.length)];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const smoother = t => t * t * t * (t * (t * 6 - 15) + 10);
+
+  const C = {
+    verde:    [0.29, 0.87, 0.50],
+    verdeOsc: [0.10, 0.55, 0.27],
+    azul:     [0.22, 0.74, 0.97],
+    azulOsc:  [0.10, 0.36, 0.52],
+    papel:    [0.96, 0.96, 0.86],
+    ambar:    [0.98, 0.72, 0.26],
+  };
+
+  // ---- muestreadores geométricos ----
+  function poly(pts, closed) {
+    const P = closed ? pts.concat([pts[0]]) : pts;
+    const L = []; let tot = 0;
+    for (let i = 0; i < P.length - 1; i++) {
+      const a = P[i], b = P[i + 1];
+      const l = Math.hypot(b[0] - a[0], b[1] - a[1], (b[2] || 0) - (a[2] || 0));
+      L.push(l); tot += l;
+    }
+    return () => {
+      let s = rnd() * tot, i = 0;
+      while (i < L.length - 1 && s > L[i]) { s -= L[i]; i++; }
+      const t = L[i] ? s / L[i] : 0, a = P[i], b = P[i + 1];
+      return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2] || 0, b[2] || 0, t)];
+    };
+  }
+  const rect = (x0, y0, x1, y1, z = 0) => poly([[x0, y0, z], [x1, y0, z], [x1, y1, z], [x0, y1, z]], true);
+  const circle = (cx, cy, r, z = 0) => () => { const a = rnd() * Math.PI * 2; return [cx + r * Math.cos(a), cy + r * Math.sin(a), z]; };
+  const ringXZ = (cx, cy, cz, r) => () => { const a = rnd() * Math.PI * 2; return [cx + r * Math.cos(a), cy, cz + r * Math.sin(a)]; };
+  const any = (...fs) => () => pick(fs)();
+  const shiftZ = (f, zs) => () => { const v = f(); v[2] = (v[2] || 0) + pick(zs); return v; };
+  function rrect(w, h, r) {
+    const sw = w - 2 * r, sh = h - 2 * r, arc = Math.PI * r / 2;
+    const segs = [sw, arc, sh, arc, sw, arc, sh, arc], per = segs.reduce((a, b) => a + b);
+    const hx = w / 2, hy = h / 2;
+    return () => {
+      let s = rnd() * per, i = 0;
+      while (s > segs[i]) { s -= segs[i]; i++; }
+      let a;
+      switch (i) {
+        case 0: return [-hx + r + s, hy, 0];
+        case 1: a = Math.PI / 2 - s / r; return [hx - r + r * Math.cos(a), hy - r + r * Math.sin(a), 0];
+        case 2: return [hx, hy - r - s, 0];
+        case 3: a = -s / r; return [hx - r + r * Math.cos(a), -hy + r + r * Math.sin(a), 0];
+        case 4: return [hx - r - s, -hy, 0];
+        case 5: a = -Math.PI / 2 - s / r; return [-hx + r + r * Math.cos(a), -hy + r + r * Math.sin(a), 0];
+        case 6: return [-hx, -hy + r + s, 0];
+        default: a = Math.PI - s / r; return [-hx + r + r * Math.cos(a), hy - r + r * Math.sin(a), 0];
+      }
+    };
+  }
+  function rotZ(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]]; }
+  function rotY(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]; }
+  function rotX(v, a) { const c = Math.cos(a), s = Math.sin(a); return [v[0], v[1] * c - v[2] * s, v[1] * s + v[2] * c]; }
+
+  // Construye una forma de N partículas a partir de partes con peso y color.
+  function build(parts) {
+    const total = parts.reduce((s, p) => s + p.w, 0);
+    const pts = [];
+    parts.forEach(p => {
+      const count = Math.round(p.w / total * N);
+      const j = p.j == null ? 0.03 : p.j;
+      for (let i = 0; i < count; i++) {
+        const v = p.fn();
+        pts.push({ x: v[0] + rr(-j, j), y: v[1] + rr(-j, j), z: (v[2] || 0) + rr(-j, j), c: p.c });
+      }
+    });
+    while (pts.length < N) pts.push(Object.assign({}, pts[Math.floor(rnd() * pts.length)]));
+    pts.length = N;
+    // Ordenar por ángulo hace que cada partícula viaje a una zona cercana
+    // de la forma siguiente: el morph fluye en lugar de cruzarse al azar.
+    pts.forEach(p => { p.a = Math.atan2(p.y, p.x) + rnd() * 0.25; });
+    pts.sort((a, b) => a.a - b.a);
+    const pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
+    pts.forEach((p, i) => {
+      const k = rr(0.78, 1.12);
+      pos[i * 3] = p.x; pos[i * 3 + 1] = p.y; pos[i * 3 + 2] = p.z;
+      col[i * 3] = p.c[0] * k; col[i * 3 + 1] = p.c[1] * k; col[i * 3 + 2] = p.c[2] * k;
+    });
+    return { pos, col };
+  }
+
+  // 1 · Hoja — "del campo"
+  function leaf() {
+    const L = 4.6, W = 1.45, tilt = -0.45;
+    const hw = u => W * Math.pow(Math.sin(Math.PI * u), 0.8) * (1 - 0.3 * u);
+    const P = (x, u) => rotZ([x, -L / 2 + L * u, 0.26 * x * x - 0.3 * Math.sin(Math.PI * u)], tilt);
+    const side = () => pick([-1, 1]);
+    return build([
+      { w: 32, c: C.verde, fn: () => { const u = rnd(); return P(side() * hw(u), u); } },
+      { w: 10, c: C.papel, fn: () => { const u = rnd(); return P(0.04 * Math.sin(u * 6), u); } },
+      { w: 20, c: C.verde, j: 0.02, fn: () => { const k = Math.floor(rnd() * 7), s = rnd(), u = 0.12 + 0.1 * k + 0.14 * s; return P(side() * s * hw(u) * 0.92, u); } },
+      { w: 30, c: C.verdeOsc, j: 0.05, fn: () => { const u = rnd(); return P(side() * Math.sqrt(rnd()) * hw(u) * 0.95, u); } },
+      { w: 6, c: C.papel, fn: () => { const s = rnd(); return rotZ([0.25 * s * s, -L / 2 - 0.8 * s, 0], tilt); } },
+    ]);
+  }
+
+  // 2 · Pin de ruta — seguimiento en vivo y estados del pedido
+  function pin() {
+    const R = 1.2, cy = 1.0, tipY = -2.0, beta = Math.acos(R / (cy - tipY));
+    const a0 = -Math.PI / 2 + beta, a1 = 3 * Math.PI / 2 - beta;
+    const tL = [R * Math.cos(a1), cy + R * Math.sin(a1)], tR = [R * Math.cos(a0), cy + R * Math.sin(a0)];
+    const outline = () => {
+      if (rnd() < 0.7) { const a = rr(a0, a1); return [R * Math.cos(a), cy + R * Math.sin(a), 0]; }
+      const t = pick([tL, tR]), s = rnd();
+      return [lerp(t[0], 0, s), lerp(t[1], tipY, s), 0];
+    };
+    const route = () => {
+      const t = (Math.floor(rnd() * 34) + rnd() * 0.35) / 34, u = 1 - t;
+      const p0 = [-4.2, 1.8], p1 = [-1.6, -2.2], p2 = [0, 0];
+      return [u * u * p0[0] + 2 * u * t * p1[0] + t * t * p2[0], tipY - 0.05, u * u * p0[1] + 2 * u * t * p1[1] + t * t * p2[1]];
+    };
+    return build([
+      { w: 36, c: C.azul, fn: shiftZ(outline, [-0.2, 0.2]) },
+      { w: 8, c: C.azulOsc, j: 0.06, fn: () => { const v = outline(); v[2] = rr(-0.2, 0.2); return v; } },
+      { w: 12, c: C.papel, fn: shiftZ(circle(0, cy, 0.46), [-0.2, 0.2]) },
+      { w: 24, c: C.verde, j: 0.02, fn: any(ringXZ(0, tipY - 0.05, 0, 0.7), ringXZ(0, tipY - 0.05, 0, 1.3), ringXZ(0, tipY - 0.05, 0, 1.9)) },
+      { w: 12, c: C.papel, j: 0.02, fn: route },
+      // ondas de señal sobre el pin: "ubicación en vivo"
+      { w: 8, c: C.verdeOsc, j: 0.02, fn: () => { const r = pick([1.65, 2.05, 2.45]), a = rr(0.35, Math.PI - 0.35); return [r * Math.cos(a), cy + 0.2 + r * Math.sin(a), 0]; } },
+    ]);
+  }
+
+  // 3 · Teléfono con check — app Cliente, pedido confirmado
+  function phone() {
+    return build([
+      { w: 30, c: C.papel, fn: shiftZ(rrect(2.1, 4.0, 0.36), [-0.12, 0.12]) },
+      { w: 8, c: C.papel, j: 0.04, fn: () => { const v = rrect(2.1, 4.0, 0.36)(); v[2] = rr(-0.12, 0.12); return v; } },
+      { w: 8, c: C.azulOsc, fn: rrect(1.8, 3.5, 0.22) },
+      { w: 12, c: C.azulOsc, j: 0.02, fn: () => [rr(-0.85, 0.85), rr(-1.7, 1.7), 0] },
+      { w: 24, c: C.verde, j: 0.07, fn: poly([[-0.55, 0.05, 0.05], [-0.15, -0.38, 0.05], [0.6, 0.5, 0.05]]) },
+      { w: 12, c: C.verdeOsc, fn: circle(0, 0.05, 1.0, 0.05) },
+      { w: 3, c: C.papel, fn: poly([[-0.25, 1.82, 0], [0.25, 1.82, 0]]) },
+      { w: 3, c: C.papel, fn: poly([[-0.35, -1.82, 0], [0.35, -1.82, 0]]) },
+    ]);
+  }
+
+  // 4 · Tienda (toldo + fachada) — app Proveedor
+  function store() {
+    const yb = x => 0.5 - 0.2 * Math.abs(Math.sin((x + 2.1) / 4.2 * Math.PI * 6));
+    const awning = (stripe) => () => {
+      let x, k;
+      do { x = rr(-2.1, 2.1); k = Math.floor((x + 2.1) / 0.525) % 2; } while (k !== stripe);
+      const y = rr(yb(x), 1.35);
+      return [x, y, 0.5 + (1.35 - y) * 0.6];
+    };
+    const corners = any(
+      poly([[-1.9, -2.1, 0.5], [-1.9, -2.1, -0.5]]), poly([[1.9, -2.1, 0.5], [1.9, -2.1, -0.5]]),
+      poly([[-1.9, 0.5, 0.5], [-1.9, 0.5, -0.5]]), poly([[1.9, 0.5, 0.5], [1.9, 0.5, -0.5]])
+    );
+    const sign = () => { const v = rrect(2.6, 0.6, 0.1)(); return [v[0], v[1] + 1.75, 0.3]; };
+    return build([
+      { w: 20, c: C.azul, fn: rect(-1.9, -2.1, 1.9, 0.5, 0.5) },
+      { w: 8, c: C.azulOsc, fn: rect(-1.9, -2.1, 1.9, 0.5, -0.5) },
+      { w: 4, c: C.azulOsc, fn: corners },
+      { w: 14, c: C.verde, j: 0.02, fn: awning(0) },
+      { w: 11, c: C.papel, j: 0.02, fn: awning(1) },
+      { w: 6, c: C.papel, fn: () => { const x = rr(-2.1, 2.1); return [x, yb(x), 0.5 + (1.35 - yb(x)) * 0.6]; } },
+      { w: 8, c: C.ambar, fn: sign },
+      { w: 10, c: C.papel, fn: rect(-0.45, -2.1, 0.45, -0.7, 0.5) },
+      { w: 12, c: C.azul, fn: any(rect(-1.6, -1.2, -0.75, -0.1, 0.5), rect(0.75, -1.2, 1.6, -0.1, 0.5),
+          poly([[-1.175, -1.2, 0.5], [-1.175, -0.1, 0.5]]), poly([[1.175, -1.2, 0.5], [1.175, -0.1, 0.5]])) },
+      { w: 7, c: C.verdeOsc, fn: poly([[-2.8, -2.12, 0.6], [2.8, -2.12, 0.6]]) },
+    ]);
+  }
+
+  // 5 · Paquete con estela de movimiento — app Repartidor
+  function parcel() {
+    const s = 1.0, cx = 0.9;
+    const V = [[-s, -s, -s], [s, -s, -s], [s, s, -s], [-s, s, -s], [-s, -s, s], [s, -s, s], [s, s, s], [-s, s, s]];
+    const E = [[0, 1], [1, 2], [2, 3], [3, 0], [4, 5], [5, 6], [6, 7], [7, 4], [0, 4], [1, 5], [2, 6], [3, 7]];
+    const orient = v => { const r = rotX(rotY(v, 0.62), 0.28); return [r[0] + cx, r[1], r[2]]; };
+    const edges = () => { const e = pick(E), t = rnd(), a = V[e[0]], b = V[e[1]]; return orient([lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]); };
+    const faces = () => { const ax = Math.floor(rnd() * 3), v = [rr(-s, s), rr(-s, s), rr(-s, s)]; v[ax] = pick([-s, s]); return orient(v); };
+    const tape = () => pick([() => orient([0, s, rr(-s, s)]), () => orient([0, rr(-s, s), s]), () => orient([rr(-0.35, 0.35), s, s * 0.02])])();
+    const trail = () => {
+      const y = pick([-0.75, -0.3, 0.15, 0.6]), z = pick([-0.4, 0.4]);
+      const len = 1.4 + Math.abs(y) * 1.5;
+      return [cx - 1.5 - len * Math.pow(rnd(), 1.8), y, z];
+    };
+    return build([
+      { w: 36, c: C.ambar, fn: edges },
+      { w: 16, c: [0.62, 0.44, 0.18], j: 0.02, fn: faces },
+      { w: 12, c: C.papel, j: 0.02, fn: tape },
+      { w: 30, c: C.azul, j: 0.015, fn: trail },
+      { w: 6, c: C.verde, fn: poly([[-3.8, -1.55, 0], [2.6, -1.55, 0]]) },
+    ]);
+  }
+
+  // 6 · Red: tres apps conectadas a una sola base de datos — Sistema
+  function network() {
+    const nodes = [90, 210, 330].map(d => { const a = d * Math.PI / 180; return [2.5 * Math.cos(a), 2.5 * Math.sin(a) - 0.1, 0]; });
+    const sphere = () => { const n = pick(nodes), u = rr(-1, 1), a = rnd() * Math.PI * 2, r = 0.42, q = Math.sqrt(1 - u * u); return [n[0] + r * q * Math.cos(a), n[1] + r * u, n[2] + r * q * Math.sin(a)]; };
+    const halo = () => { const n = pick(nodes), a = rnd() * Math.PI * 2; return [n[0] + 0.72 * Math.cos(a), n[1] + 0.72 * Math.sin(a), 0]; };
+    const spoke = () => { const n = pick(nodes), t = rr(0.18, 0.82); return [n[0] * (1 - t), n[1] * (1 - t) + (-0.1) * t, 0]; };
+    const link = () => { const i = Math.floor(rnd() * 3), a = nodes[i], b = nodes[(i + 1) % 3]; const t = (Math.floor(rnd() * 22) + rnd() * 0.45) / 22; return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), 0]; };
+    const packet = () => { const n = pick(nodes), t = pick([0.35, 0.62]); return [n[0] * (1 - t), n[1] * (1 - t) - 0.1 * t, 0]; };
+    const db = any(ringXZ(0, -0.75, 0, 0.8), ringXZ(0, -0.15, 0, 0.8), ringXZ(0, 0.45, 0, 0.8),
+      () => { const a = Math.floor(rnd() * 10) / 10 * Math.PI * 2; return [0.8 * Math.cos(a), rr(-0.75, 0.45), 0.8 * Math.sin(a)]; });
+    return build([
+      { w: 22, c: C.verde, j: 0.01, fn: sphere },
+      { w: 8, c: C.verdeOsc, fn: halo },
+      { w: 24, c: C.papel, j: 0.015, fn: db },
+      { w: 16, c: C.azul, j: 0.015, fn: spoke },
+      { w: 12, c: C.azulOsc, j: 0.015, fn: link },
+      { w: 8, c: C.papel, j: 0.08, fn: packet },
+    ]);
+  }
+
+  const SH = [leaf(), pin(), phone(), store(), parcel(), network()];
+  // desplazamiento horizontal de cada forma (fracción del ancho visible), para no tapar el texto
+  const OFF = mobile ? [0, 0, 0, 0, 0, 0] : [0.04, 0.25, 0.32, 0.32, 0.3, 0.27];
+  // escala relativa de cada forma (las de las apps van junto al mockup, más chicas)
+  const SC = mobile ? [1, 1, 1, 1, 1, 1] : [1, 1, 0.78, 0.78, 0.8, 0.9];
+
+  // ---- escena ----
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(DPR);
+  renderer.setClearColor(0x000000, 0);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+  camera.position.z = 13;
+
+  // Fragmento compartido: punto suave con brillo
+  const fragmentShader = `
+    uniform float uOpacity;
+    varying vec3 vColor;
+    void main() {
+      float d = length(gl_PointCoord - 0.5);
+      float a = 1.0 - smoothstep(0.0, 0.5, d);
+      gl_FragColor = vec4(vColor, a * a * uOpacity);
+    }`;
+
+  // El morph entre formas se calcula en la GPU: cada frame solo cambian
+  // unos pocos uniforms, así se mantiene fluido también en celulares.
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uT: { value: 0 }, uTime: { value: 0 }, uWobble: { value: reduceMotion ? 0 : 0.035 },
+      uSize: { value: 46 * DPR }, uOpacity: { value: mobile ? 0.5 : 0.82 },
+    },
+    vertexShader: `
+      attribute vec3 posB;
+      attribute vec3 colA;
+      attribute vec3 colB;
+      attribute vec3 aDir;
+      attribute vec4 aRnd; // retraso, estallido, fase, tamaño
+      uniform float uT, uTime, uWobble, uSize;
+      varying vec3 vColor;
+      float smoother(float t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
+      void main() {
+        float tt = smoother(clamp((uT - aRnd.x * 0.4) / 0.6, 0.0, 1.0));
+        float b = sin(3.14159265 * tt) * aRnd.y;
+        vec3 p = mix(position, posB, tt) + aDir * b;
+        p.x += sin(uTime * 0.7 + aRnd.z) * uWobble;
+        p.y += cos(uTime * 0.6 + aRnd.z * 1.3) * uWobble;
+        vColor = mix(colA, colB, tt);
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = uSize * aRnd.w / -mv.z;
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const posAttr = SH.map(s => new THREE.BufferAttribute(s.pos, 3));
+  const colAttr = SH.map(s => new THREE.BufferAttribute(s.col, 3));
+  const geo = new THREE.BufferGeometry();
+  // cada partícula tiene su dirección de "estallido", retraso, fase y tamaño propios
+  const dir = new Float32Array(N * 3), rndA = new Float32Array(N * 4);
+  for (let i = 0; i < N; i++) {
+    const u = rr(-1, 1), a = rnd() * Math.PI * 2, q = Math.sqrt(1 - u * u);
+    dir[i * 3] = q * Math.cos(a); dir[i * 3 + 1] = u; dir[i * 3 + 2] = q * Math.sin(a);
+    rndA[i * 4] = rnd(); rndA[i * 4 + 1] = rr(0.25, 0.95); rndA[i * 4 + 2] = rnd() * 6.283; rndA[i * 4 + 3] = rr(0.55, 1.35);
+  }
+  geo.setAttribute('aDir', new THREE.BufferAttribute(dir, 3));
+  geo.setAttribute('aRnd', new THREE.BufferAttribute(rndA, 4));
+  let boundIdx = -1;
+  function bindStage(idx) {
+    if (idx === boundIdx) return;
+    boundIdx = idx;
+    geo.setAttribute('position', posAttr[idx]);
+    geo.setAttribute('posB', posAttr[idx + 1]);
+    geo.setAttribute('colA', colAttr[idx]);
+    geo.setAttribute('colB', colAttr[idx + 1]);
+  }
+  bindStage(0);
+  const main = new THREE.Points(geo, material);
+  main.frustumCulled = false;
+  group.add(main);
+
+  // polvo ambiental con profundidad: sube lento y se desplaza con el scroll (paralaje)
+  const dustMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uScroll: { value: 0 }, uSize: { value: 40 * DPR }, uOpacity: { value: mobile ? 0.6 : 0.9 } },
+    vertexShader: `
+      attribute vec3 aColor;
+      attribute vec2 aRnd; // velocidad, tamaño
+      uniform float uTime, uScroll, uSize;
+      varying vec3 vColor;
+      void main() {
+        vColor = aColor;
+        vec3 p = position;
+        p.y = mod(p.y + 9.0 + uTime * aRnd.x + uScroll * (0.4 + aRnd.x * 4.0), 18.0) - 9.0;
+        p.x += sin(uTime * 0.2 + position.x) * 0.15;
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = uSize * aRnd.y / -mv.z;
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  const dGeo = new THREE.BufferGeometry();
+  const dPos = new Float32Array(DUST * 3), dCol = new Float32Array(DUST * 3), dRnd = new Float32Array(DUST * 2);
+  for (let i = 0; i < DUST; i++) {
+    dPos[i * 3] = rr(-15, 15); dPos[i * 3 + 1] = rr(-9, 9); dPos[i * 3 + 2] = rr(-10, 3);
+    dRnd[i * 2] = rr(0.04, 0.16); dRnd[i * 2 + 1] = rr(0.35, 0.9);
+    const c = pick([C.verdeOsc, C.azulOsc, C.verdeOsc]), k = rr(0.35, 0.8);
+    dCol[i * 3] = c[0] * k; dCol[i * 3 + 1] = c[1] * k; dCol[i * 3 + 2] = c[2] * k;
+  }
+  dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+  dGeo.setAttribute('aColor', new THREE.BufferAttribute(dCol, 3));
+  dGeo.setAttribute('aRnd', new THREE.BufferAttribute(dRnd, 2));
+  const dust = new THREE.Points(dGeo, dustMat);
+  dust.frustumCulled = false;
+  scene.add(dust);
+
+  // ---- scroll → progreso por sección real ----
+  const groups = [['.hero'], ['#flujo', '#estados'], ['#cliente'], ['#proveedor'], ['#repartidor'], ['#sistema', '#contacto']]
+    .map(sels => sels.map(s => document.querySelector(s)).filter(Boolean));
+
+  function targetProgress() {
+    const vh = window.innerHeight, c = vh * 0.5;
+    const holds = groups.map(g => {
+      let top = Infinity, bot = -Infinity;
+      g.forEach(el => { const r = el.getBoundingClientRect(); top = Math.min(top, r.top); bot = Math.max(bot, r.bottom); });
+      const m = Math.min((bot - top) * 0.3, vh * 0.35);
+      return [top + m, bot - m];
+    });
+    if (c <= holds[0][1]) return 0;
+    for (let k = 0; k < holds.length - 1; k++) {
+      const e0 = holds[k][1], s1 = holds[k + 1][0];
+      if (c <= e0) return k;
+      if (c < s1) return k + (c - e0) / (s1 - e0);
+    }
+    return holds.length - 1;
+  }
+
+  // indicador de etapa
+  const stageBtns = [...document.querySelectorAll('#stageNav button')];
+  stageBtns.forEach(b => b.addEventListener('click', () => {
+    const el = groups[+b.dataset.stage][0];
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - (+b.dataset.stage ? 60 : 0), behavior: reduceMotion ? 'auto' : 'smooth' });
+  }));
+  let activeStage = -1;
+
+  // ---- tamaño ----
+  let visW = 1, visH = 1, fit = 1;
+  function resize() {
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    visH = 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    visW = visH * camera.aspect;
+    fit = Math.min(1, (visW * 0.86) / 5.6, (visH * 0.8) / 5.2);
+    group.scale.setScalar(fit);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+  window.addEventListener('pointermove', e => {
+    mouse.tx = e.clientX / window.innerWidth - 0.5;
+    mouse.ty = e.clientY / window.innerHeight - 0.5;
+  }, { passive: true });
+
+  let disp = targetProgress(), last = performance.now(), time = 0;
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (!reduceMotion) time += dt;
+
+    const target = targetProgress();
+    disp += (target - disp) * (reduceMotion ? 1 : 1 - Math.exp(-dt * 4.5));
+    if (Math.abs(target - disp) < 1e-4) disp = target;
+
+    const idx = Math.min(SH.length - 2, Math.floor(disp));
+    const t = disp - idx;
+    bindStage(idx);
+    material.uniforms.uT.value = t;
+    material.uniforms.uTime.value = time;
+
+    const ts = smoother(t);
+    mouse.x += (mouse.tx - mouse.x) * 0.05;
+    mouse.y += (mouse.ty - mouse.y) * 0.05;
+    group.position.x = lerp(OFF[idx], OFF[idx + 1], ts) * visW;
+    group.scale.setScalar(fit * lerp(SC[idx], SC[idx + 1], ts));
+    group.rotation.y = Math.sin(time * 0.18) * 0.32 + Math.sin(Math.PI * t) * 0.55 + mouse.x * 0.35;
+    group.rotation.x = 0.18 + mouse.y * 0.18;
+
+    dustMat.uniforms.uTime.value = time;
+    dustMat.uniforms.uScroll.value = window.scrollY / window.innerHeight * 1.6;
+    dust.rotation.y = mouse.x * 0.08;
+
+    const st = Math.round(disp);
+    if (st !== activeStage) {
+      activeStage = st;
+      stageBtns.forEach((b, k) => b.classList.toggle('active', k === st));
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
