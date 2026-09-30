@@ -446,6 +446,18 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   background:linear-gradient(115deg, rgba(255,255,255,.08) 0%, transparent 35%);
 }
 
+/* iPhone 3D */
+.sc-phone.is-3d{
+  width:380px;aspect-ratio:380/640;
+  border:none;border-radius:0;background:none;box-shadow:none;overflow:visible;
+}
+.sc-phone.is-3d .sc-img, .sc-phone.is-3d .sc-glare{display:none;}
+.sc-phone.is-3d::after{
+  content:'';position:absolute;left:26%;right:26%;bottom:5%;height:22px;z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.75), transparent 70%);filter:blur(6px);
+}
+.sc-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+
 .sc-meta{text-align:center;transition:opacity .25s ease, transform .25s ease;}
 .sc-meta.out{opacity:0;transform:translateY(6px);}
 .sc-meta h4{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:4px 0 2px;color:var(--papel);}
@@ -471,6 +483,7 @@ footer{background:linear-gradient(to bottom, transparent, rgba(3,9,5,.85) 45%);c
   .showcase{grid-template-columns:1fr;gap:28px;}
   .sc-stage{order:-1;}
   .sc-phone{width:230px;}
+  .sc-phone.is-3d{width:300px;}
   .sc-step.active{transform:none;}
 }
 
@@ -944,6 +957,272 @@ const scReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pad2 = n => (n < 10 ? '0' : '') + n;
 const arrowSvg = d => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 
+// ---------- iPhone 16 Pro Max en 3D para el showcase ----------
+// Medidas reales en cm (163 × 77,6 × 8,25 mm). La captura de la app se
+// dibuja en la pantalla con un shader que hace la transición entre pantallas.
+const PH = { W: 7.76, H: 16.3, D: 0.825, R: 1.25, BEVEL: 0.25, BEZEL: 0.14 };
+
+function phoneShape(w, h, r) {
+  const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y);
+  s.lineTo(x + w - r, y); s.absarc(x + w - r, y + r, r, -Math.PI / 2, 0, false);
+  s.lineTo(x + w, y + h - r); s.absarc(x + w - r, y + h - r, r, 0, Math.PI / 2, false);
+  s.lineTo(x + r, y + h); s.absarc(x + r, y + h - r, r, Math.PI / 2, Math.PI, false);
+  s.lineTo(x, y + r); s.absarc(x + r, y + r, r, Math.PI, Math.PI * 1.5, false);
+  return s;
+}
+
+// Plano con forma de rectángulo redondeado y UV normalizadas de 0 a 1
+function flatRounded(w, h, r) {
+  const g = new THREE.ShapeGeometry(phoneShape(w, h, r), 32);
+  const p = g.attributes.position, uv = g.attributes.uv;
+  for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / w + 0.5, p.getY(i) / h + 0.5);
+  return g;
+}
+
+function createPhone3D(host, urls, reduce) {
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  } catch (e) { return null; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  const canvas = renderer.domElement;
+  canvas.className = 'sc-canvas';
+  canvas.setAttribute('role', 'img');
+  host.appendChild(canvas);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(26, 1, 1, 200);
+
+  // Entorno para los reflejos del titanio y el vidrio: un estudio oscuro
+  // con paneles de luz (uno verde y uno celeste, los colores de AgroVía)
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const studio = new THREE.Scene();
+  studio.add(new THREE.Mesh(new THREE.BoxGeometry(80, 80, 80), new THREE.MeshBasicMaterial({ color: 0x0a120d, side: THREE.BackSide })));
+  const softbox = (w, h, pos, color, k) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(k), side: THREE.DoubleSide }));
+    m.position.set(...pos); m.lookAt(0, 0, 0); studio.add(m);
+  };
+  softbox(34, 12, [-22, 18, 18], 0xffffff, 3.2);
+  softbox(8, 44, [26, 2, 8], 0xd6f0ff, 2.4);
+  softbox(40, 8, [0, -24, -6], 0x4ade80, 1.6);
+  softbox(20, 20, [0, 10, -30], 0x38bdf8, 1.2);
+  scene.environment = pmrem.fromScene(studio, 0.02).texture;
+  pmrem.dispose();
+
+  const key = new THREE.DirectionalLight(0xffffff, 1.1);
+  key.position.set(-6, 10, 14);
+  scene.add(key, new THREE.AmbientLight(0xffffff, 0.15));
+
+  // Materiales
+  const titanio = new THREE.MeshStandardMaterial({ color: 0x9c978f, metalness: 1, roughness: 0.3 });
+  const titanioOsc = new THREE.MeshStandardMaterial({ color: 0x55524d, metalness: 1, roughness: 0.28 });
+  const vidrioNegro = new THREE.MeshPhysicalMaterial({ color: 0x030303, metalness: 0, roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.04 });
+  const vidrioTrasero = new THREE.MeshStandardMaterial({ color: 0x8a857d, metalness: 0.35, roughness: 0.55 });
+  const lente = new THREE.MeshPhysicalMaterial({ color: 0x05070a, metalness: 0.2, roughness: 0.05, clearcoat: 1 });
+
+  const phone = new THREE.Group();
+  scene.add(phone);
+  const { W, H, D, R, BEVEL: bv, BEZEL: bz } = PH;
+
+  // Cuerpo: marco de titanio con cantos redondeados
+  const body = new THREE.ExtrudeGeometry(phoneShape(W - 2 * bv, H - 2 * bv, R - bv), {
+    depth: D - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 10, curveSegments: 40,
+  });
+  body.center();
+  phone.add(new THREE.Mesh(body, titanio));
+
+  // Frente: vidrio negro + pantalla + Dynamic Island
+  const fw = W - 2 * bv, fh = H - 2 * bv, fr = R - bv;
+  const front = new THREE.Mesh(flatRounded(fw, fh, fr), vidrioNegro);
+  front.position.z = D / 2 + 0.003;
+  phone.add(front);
+
+  const sw = fw - 2 * bz, sh = fh - 2 * bz;
+  const imgAspect = 540 / 1206, screenAspect = sw / sh;
+  const screenMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uA: { value: null }, uB: { value: null }, uP: { value: 1 }, uDir: { value: 1 },
+      uCover: { value: imgAspect < screenAspect ? new THREE.Vector2(1, imgAspect / screenAspect) : new THREE.Vector2(screenAspect / imgAspect, 1) },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+    fragmentShader: `
+      uniform sampler2D uA, uB;
+      uniform float uP, uDir;
+      uniform vec2 uCover;
+      varying vec2 vUv;
+      vec3 tex(sampler2D t, vec2 uv) { return texture2D(t, (uv - 0.5) * uCover + 0.5).rgb; }
+      void main() {
+        // Transición tipo iOS: la pantalla nueva entra deslizándose por encima
+        // y la anterior se corre un poco hacia atrás y se oscurece.
+        float p = uP;
+        float edge = uDir > 0.0 ? 1.0 - p : p;
+        bool inB = uDir > 0.0 ? vUv.x >= edge : vUv.x <= edge;
+        vec3 c;
+        if (inB) {
+          c = tex(uB, vUv + vec2(uDir > 0.0 ? -(1.0 - p) : (1.0 - p), 0.0));
+        } else {
+          c = tex(uA, vUv + vec2(uDir * p * 0.3, 0.0)) * (1.0 - 0.5 * p);
+          float moving = step(0.001, p) * step(p, 0.999);
+          c *= 1.0 - 0.4 * moving * smoothstep(0.1, 0.0, abs(vUv.x - edge));
+        }
+        // reflejo suave del vidrio
+        c += 0.05 * smoothstep(0.6, 1.2, vUv.y + (1.0 - vUv.x) * 0.45);
+        gl_FragColor = vec4(c, 1.0);
+      }`,
+  });
+  const screen = new THREE.Mesh(flatRounded(sw, sh, fr - bz), screenMat);
+  screen.position.z = D / 2 + 0.006;
+  phone.add(screen);
+
+  const island = new THREE.Mesh(flatRounded(1.95, 0.56, 0.28), new THREE.MeshBasicMaterial({ color: 0x000000 }));
+  island.position.set(0, sh / 2 - 0.62, D / 2 + 0.009);
+  phone.add(island);
+
+  // Dorso: vidrio mate, meseta de cámaras con tres lentes, flash y LiDAR
+  const back = new THREE.Mesh(flatRounded(fw, fh, fr), vidrioTrasero);
+  back.rotation.y = Math.PI;
+  back.position.z = -D / 2 - 0.003;
+  phone.add(back);
+
+  const cam = new THREE.Group();
+  const ps = 3.55;
+  const plateau = new THREE.ExtrudeGeometry(phoneShape(ps - 0.08, ps - 0.08, 0.78), { depth: 0.04, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 4, curveSegments: 24 });
+  plateau.center();
+  cam.add(new THREE.Mesh(plateau, new THREE.MeshStandardMaterial({ color: 0x6f6b64, metalness: 0.55, roughness: 0.22 })));
+  const lensAt = (x, y) => {
+    const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.7, 0.26, 48), titanioOsc);
+    ring.rotation.x = Math.PI / 2; ring.position.set(x, y, -0.17);
+    const glass = new THREE.Mesh(new THREE.CylinderGeometry(0.54, 0.54, 0.27, 48), lente);
+    glass.rotation.x = Math.PI / 2; glass.position.set(x, y, -0.18);
+    const iris = new THREE.Mesh(new THREE.CircleGeometry(0.2, 32), new THREE.MeshBasicMaterial({ color: 0x14233f }));
+    iris.rotation.y = Math.PI; iris.position.set(x, y, -0.32);
+    cam.add(ring, glass, iris);
+  };
+  lensAt(0.8, 0.8); lensAt(0.8, -0.8); lensAt(-0.85, 0);
+  const dot = (x, y, r, color) => {
+    const m = new THREE.Mesh(new THREE.CircleGeometry(r, 32), new THREE.MeshStandardMaterial({ color, metalness: 0.2, roughness: 0.3 }));
+    m.rotation.y = Math.PI; m.position.set(x, y, -0.09); cam.add(m);
+  };
+  dot(-0.85, 1.0, 0.2, 0xe9e2cf);   // flash
+  dot(-0.85, -1.0, 0.17, 0x0c0c0c); // LiDAR
+  cam.position.set(W / 2 - 0.4 - ps / 2, H / 2 - 0.4 - ps / 2, -D / 2 - 0.05);
+  phone.add(cam);
+
+  // Botones laterales: acción y volumen a la izquierda; encendido y Control de Cámara a la derecha
+  const button = (side, y, len, mat, out = 0.07) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(0.1, len, 0.3), mat);
+    b.position.set(side * (W / 2 + out - 0.05), y, 0);
+    phone.add(b);
+  };
+  button(-1, 5.0, 0.85, titanio);
+  button(-1, 3.45, 1.3, titanio);
+  button(-1, 1.85, 1.3, titanio);
+  button(1, 2.9, 1.95, titanio);
+  button(1, -2.6, 1.25, lente, 0.03);
+
+  // Texturas de las pantallas
+  const loader = new THREE.TextureLoader();
+  const aniso = renderer.capabilities.getMaxAnisotropy();
+  const textures = urls.map(u => {
+    const t = loader.load(u, () => { dirty = true; kick(); });
+    t.anisotropy = aniso;
+    return t;
+  });
+
+  // Tamaño y encuadre
+  function resize() {
+    const w = host.clientWidth, h = host.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    const dist = Math.max((H * 1.08 / 2) / half, (W * 1.5 / 2) / (half * camera.aspect));
+    camera.position.set(0, 0, dist);
+    camera.updateProjectionMatrix();
+    dirty = true;
+    kick();
+  }
+  const ro = new ResizeObserver(resize);
+  ro.observe(host);
+
+  // Movimiento: flotación suave, inclinación con el puntero y un giro con resorte al cambiar de pantalla
+  let visible = false, running = false, dirty = true, last = 0, t = 0;
+  let spin = 0, spinV = 0, rx = 0, ry = 0, tx = 0, ty = 0, trans = null;
+  const smoother = k => k * k * k * (k * (k * 6 - 15) + 10);
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000 || 0);
+    last = now;
+    if (!reduce) t += dt;
+    if (trans) {
+      trans.k = Math.min(1, trans.k + dt / 0.8);
+      screenMat.uniforms.uP.value = smoother(trans.k);
+      if (trans.k >= 1) trans = null;
+    }
+    spinV += (-36 * spin - 8 * spinV) * dt;
+    spin += spinV * dt;
+    rx += (tx - rx) * 0.08;
+    ry += (ty - ry) * 0.08;
+    phone.rotation.y = -0.3 + Math.sin(t * 0.55) * 0.1 + ry + spin;
+    phone.rotation.x = 0.05 + Math.sin(t * 0.8) * 0.025 + rx;
+    phone.position.y = Math.sin(t * 1.1) * 0.16;
+    renderer.render(scene, camera);
+    dirty = false;
+    const busy = !reduce || trans || Math.abs(spinV) > 1e-3 || Math.abs(tx - rx) > 1e-3 || Math.abs(ty - ry) > 1e-3;
+    if (visible && (busy || dirty)) requestAnimationFrame(frame);
+    else running = false;
+  }
+  function kick() {
+    if (running || !visible) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(frame);
+  }
+  // si llegan varios avisos juntos, vale el último
+  const io = new IntersectionObserver(es => { visible = es[es.length - 1].isIntersecting; if (visible) kick(); });
+  io.observe(host);
+
+  if (window.matchMedia('(hover: hover)').matches && !reduce) {
+    host.addEventListener('pointermove', e => {
+      const r = host.getBoundingClientRect();
+      ty = ((e.clientX - r.left) / r.width - 0.5) * 0.7;
+      tx = ((e.clientY - r.top) / r.height - 0.5) * 0.35;
+      kick();
+    });
+    host.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
+  }
+
+  let current = -1;
+  return {
+    observers: [ro, io], // referencias para que el navegador no los descarte
+    show(i, dir, label) {
+      canvas.setAttribute('aria-label', label);
+      const u = screenMat.uniforms;
+      if (current < 0 || reduce) {
+        u.uA.value = u.uB.value = textures[i];
+        u.uP.value = 1;
+      } else {
+        u.uA.value = textures[current];
+        u.uB.value = textures[i];
+        u.uDir.value = dir;
+        u.uP.value = 0;
+        trans = { k: 0 };
+        spinV -= dir * 3.2;
+      }
+      current = i;
+      dirty = true;
+      kick();
+    },
+  };
+}
+
 function initShowcase(root) {
   const app = root.dataset.app;
   const data = SCREENS[app];
@@ -981,6 +1260,8 @@ function initShowcase(root) {
   const phone = root.querySelector('.sc-phone');
   const meta = root.querySelector('.sc-meta');
   const mTitle = meta.querySelector('h4');
+  const p3d = window.THREE ? createPhone3D(phone, data.map(([n]) => `assets/img/s${n}.jpg`), scReduce) : null;
+  if (p3d) phone.classList.add('is-3d');
   let cur = -1, elapsed = 0, hovering = false, inView = false, metaTimer;
 
   function setMeta(i) {
@@ -988,12 +1269,9 @@ function initShowcase(root) {
     mTitle.textContent = title;
   }
 
-  function go(i, dir) {
-    i = (i + data.length) % data.length;
-    if (i === cur) return;
-    if (dir == null) dir = cur < 0 || i > cur ? 1 : -1;
+  // sin WebGL: las capturas se deslizan como imágenes
+  function slideImgs(i, dir) {
     const inc = imgs[i], out = imgs[cur];
-
     // la pantalla nueva entra desde el lado hacia el que se avanza
     inc.style.transition = 'none';
     inc.style.transform = scReduce ? 'none' : `translateX(${dir * 14}%) scale(.96)`;
@@ -1012,6 +1290,14 @@ function initShowcase(root) {
       out.style.zIndex = 1;
     }
     imgs.forEach((im, k) => { if (k !== i && k !== cur) im.style.zIndex = 0; });
+  }
+
+  function go(i, dir) {
+    i = (i + data.length) % data.length;
+    if (i === cur) return;
+    if (dir == null) dir = cur < 0 || i > cur ? 1 : -1;
+    if (p3d) p3d.show(i, dir, `App ${app}: ${data[i][1]}`);
+    else slideImgs(i, dir);
 
     steps.forEach((s, k) => {
       const on = k === i;
@@ -1059,7 +1345,7 @@ function initShowcase(root) {
 
   // leve inclinación 3D del teléfono siguiendo el puntero
   const stage = root.querySelector('.sc-stage');
-  if (!scReduce && window.matchMedia('(hover: hover)').matches) {
+  if (!p3d && !scReduce && window.matchMedia('(hover: hover)').matches) {
     stage.addEventListener('pointermove', e => {
       const r = phone.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
@@ -1073,7 +1359,7 @@ function initShowcase(root) {
   root.addEventListener('pointerleave', () => { hovering = false; });
   root.addEventListener('focusin', () => { hovering = true; });
   root.addEventListener('focusout', () => { hovering = false; });
-  new IntersectionObserver(([en]) => { inView = en.isIntersecting; }, { threshold: 0.35 }).observe(root);
+  new IntersectionObserver(es => { inView = es[es.length - 1].isIntersecting; }, { threshold: 0.35 }).observe(root);
 
   go(0);
   if (scReduce) return;
