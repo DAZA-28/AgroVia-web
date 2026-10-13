@@ -928,25 +928,25 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // Pantallas principales de cada app: [anexo, título, clase, descripción]
 const SCREENS = {
   cliente: [
-    [5, "Inicio y catálogo", "HomeFragment", "Productores cercanos, promociones y búsqueda de productos en un solo lugar."],
-    [6, "Carrito de compra", "CarritoFragment", "Ajustá cantidades, revisá el total y pagá con tarjeta o en efectivo."],
-    [8, "Seguimiento en tiempo real", "SeguimientoFragment", "El repartidor en el mapa, el estado del pedido y el código de entrega."],
-    [7, "Mis pedidos", "HistorialFragment", "El historial con el estado de cada orden: entregada, cancelada o en curso."],
-    [12, "Mi perfil", "ConfiguracionFragment", "Créditos, direcciones guardadas, soporte y configuración de la cuenta."],
+    [5, "Inicio y catálogo", "PantallaPrincipal", "Productores cercanos, búsqueda por producto o categoría y la dirección de entrega a mano."],
+    [6, "Carrito de compra", "PestanaCarrito", "Ajustá cantidades con la foto de cada producto, revisá el subtotal y pagá en efectivo."],
+    [8, "Seguimiento en tiempo real", "PantallaSeguimiento", "El repartidor en el mapa, cuánto falta, cada etapa del pedido y el código de entrega."],
+    [7, "Mis pedidos", "PestanaPedidos", "El historial con el estado de cada orden: entregada, cancelada o en curso."],
+    [12, "Mi perfil", "PestanaPerfil", "Créditos, direcciones guardadas, configuración y ayuda."],
   ],
   proveedor: [
-    [24, "Registro guiado", "RegistroProveedorActivity", "Cuatro pasos: cuenta, ubicación, imágenes y al menos cinco productos."],
-    [28, "Gestión de tienda", "TiendaActivity", "Logo, banner, descripción, categoría y ubicación de la tienda."],
-    [30, "Mis productos", "ProductosActivity", "El catálogo publicado, con fotos y precios, listo para vender."],
-    [31, "Nuevo producto", "ProductoEditActivity", "Nombre, precio, descripción y foto para sumar un producto al catálogo."],
-    [32, "Bandeja de pedidos", "PedidosFragment", "Pedidos pendientes, en curso e historial, separados por pestañas."],
+    [24, "Crear cuenta", "PantallaCrearCuenta", "Correo o Google, y después un registro guiado en cuatro pasos para abrir la tienda."],
+    [28, "Gestión de tienda", "PestanaTienda", "Logo, banner, descripción, categoría y ubicación de la tienda."],
+    [30, "Mis productos", "PestanaProductos", "El catálogo publicado, con fotos, precios y existencias, listo para vender."],
+    [31, "Nuevo producto", "PantallaEditorProducto", "Nombre, precio, descripción, existencias y foto para sumar un producto al catálogo."],
+    [32, "Bandeja de pedidos", "PestanaPedidos", "Pedidos nuevos, en preparación y listos, con su historial aparte."],
   ],
   repartidor: [
-    [17, "Panel principal", "DashboardRepartidorActivity", "Ganancias y viajes del día, y el botón para empezar a buscar pedidos."],
-    [18, "Buscando pedidos", "RepartirActivity", "Busca pedidos cercanos ampliando el radio poco a poco, desde 5 km."],
-    [19, "¡Nuevo pedido!", "RepartirActivity", "Ganancia estimada, punto de recogida y dirección de entrega, listo para aceptar."],
-    [21, "Reporte semanal", "ReporteRepartidorActivity", "Ganancias y entregas completadas durante la semana."],
-    [20, "Perfil del repartidor", "PerfilRepartidorActivity", "Calificación, reseñas y total de entregas realizadas."],
+    [17, "Panel principal", "PantallaInicio", "Disponibilidad, ganancias de hoy y de la semana, y la búsqueda de pedidos."],
+    [18, "Buscando pedidos", "PantallaBuscando", "Mientras estás disponible, AgroVía te ofrece los pedidos de las tiendas más cercanas."],
+    [19, "¡Pedido para ti!", "AvisoOferta", "Ganancia, punto de recogida y dirección de entrega, con unos segundos para aceptar."],
+    [21, "Ganancias", "PestanaGanancias", "Ganancias y entregas del día y de la semana, día por día."],
+    [20, "Perfil del repartidor", "PestanaPerfil", "Datos, vehículo y calificación del repartidor."],
   ],
 };
 
